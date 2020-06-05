@@ -12,11 +12,6 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MedicalBackgroundHispory" class="control-label"></label>
-                <input asp-for="MedicalBackgroundHispory" class="form-control" />
-                <span asp-validation-for="MedicalBackgroundHispory" class="text-danger"></span>
-            </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -32,6 +27,11 @@
                 <label asp-for="Birthdate" class="control-label"></label>
                 <input asp-for="Birthdate" class="form-control" />
                 <span asp-validation-for="Birthdate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MedicalBackgroundHispory" class="control-label"></label>
+                <input asp-for="MedicalBackgroundHispory" class="form-control" />
+                <span asp-validation-for="MedicalBackgroundHispory" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="Hospital" class="control-label">Hospital</label>

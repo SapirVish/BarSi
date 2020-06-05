@@ -94,9 +94,8 @@ namespace BarSi.Controllers
             }
 
             ViewData["Hospitals"] = new SelectList(_context.Hospital, "Id", "Name", patient.Hospital.Id);
-            ViewData["Doctors"] = new SelectList(from doctor in _context.Doctor
-                                  select new SelectListItem { Text = doctor.FirstName + " " + doctor.LastName, Value = doctor.Id.ToString() },
-                                  patient.Doctor.Id);
+            ViewData["Doctors"] = from doctor in _context.Doctor
+                                  select new SelectListItem { Text = doctor.FirstName + " " + doctor.LastName, Value = doctor.Id.ToString() };
             ViewData["Cities"] = new SelectList(_context.City, "Id", "Name", patient.City.Id);
             ViewData["PatientStatus"] = new SelectList(_context.PatientStatus, "Id", "Status", patient.Status.Id);
 
