@@ -15,5 +15,13 @@ namespace BarSi.Data
         }
 
         public DbSet<BarSi.Models.Patient> Patient { get; set; }
+
+        public DbSet<BarSi.Models.Hospital> Hospital { get; set; }
+
+        public DbSet<BarSi.Models.City> City { get; set; }
+
+        public DbSet<BarSi.Models.Doctor> Doctor { get; set; }
+
+        public DbSet<BarSi.Models.PatientStatus> PatientStatus { get; set; }
     }
 }

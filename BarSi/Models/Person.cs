@@ -20,7 +20,10 @@ namespace BarSi.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Birthdate { get; set; }
+
+        public City City { get; set; }
     }
 }

@@ -13,13 +13,13 @@ namespace BarSi.Models
 
         [StringLength(50)]
         [RegularExpression(@"^[A-Za-z\s]*$")]
+        [Display(Name="Hospital Name")]
         public string Name { get; set; }
 
         public City City { get; set; }
 
-        public IEnumerable<Patient> Patient { get; set; }
+        public IEnumerable<Patient> Patients { get; set; }
 
         public IEnumerable<Doctor> Doctors { get; set; }
-        
     }
 }

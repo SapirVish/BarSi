@@ -22,7 +22,8 @@ namespace BarSi.Controllers
         // GET: Patients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Patient.ToListAsync());
+            return View(await _context.Patient.Include(p => p.City).Include(p => p.Doctor)
+                .Include(p => p.Status).Include(p => p.Hospital).ToListAsync());
         }
 
         // GET: Patients/Details/5
@@ -46,6 +47,12 @@ namespace BarSi.Controllers
         // GET: Patients/Create
         public IActionResult Create()
         {
+            ViewData["Hospitals"] = new SelectList(_context.Hospital, "Id", "Name");
+            ViewData["Doctors"] = from doctor in _context.Doctor 
+                                  select new SelectListItem { Text = doctor.FirstName + " " + doctor.LastName, Value = doctor.Id.ToString() };
+            ViewData["Cities"] = new SelectList(_context.City, "Id", "Name");
+            ViewData["PatientStatus"] = new SelectList(_context.PatientStatus, "Id", "Status");
+
             return View();
         }
 
@@ -54,10 +61,16 @@ namespace BarSi.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MedicalBackgroundHispory,Id,FirstName,LastName,Birthdate")] Patient patient)
+        public async Task<IActionResult> Create([Bind("MedicalBackgroundHispory,Id,FirstName,LastName,Birthdate")] Patient patient, int Hospital, int City, int Doctor, int Status)
         {
+
             if (ModelState.IsValid)
             {
+                patient.Hospital = _context.Hospital.First(h => h.Id == Hospital);
+                patient.Doctor = _context.Doctor.First(d => d.Id == Doctor);
+                patient.City = _context.City.First(c => c.Id == City);
+                patient.Status = _context.PatientStatus.First(c => c.Id == Status);
+
                 _context.Add(patient);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -73,11 +86,20 @@ namespace BarSi.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patient.FindAsync(id);
+            var patient = (await _context.Patient.Include(p => p.City).Include(p => p.Doctor)
+                .Include(p => p.Status).Include(p => p.Hospital).FirstAsync(p => p.Id == id));
             if (patient == null)
             {
                 return NotFound();
             }
+
+            ViewData["Hospitals"] = new SelectList(_context.Hospital, "Id", "Name", patient.Hospital.Id);
+            ViewData["Doctors"] = new SelectList(from doctor in _context.Doctor
+                                  select new SelectListItem { Text = doctor.FirstName + " " + doctor.LastName, Value = doctor.Id.ToString() },
+                                  patient.Doctor.Id);
+            ViewData["Cities"] = new SelectList(_context.City, "Id", "Name", patient.City.Id);
+            ViewData["PatientStatus"] = new SelectList(_context.PatientStatus, "Id", "Status", patient.Status.Id);
+
             return View(patient);
         }
 

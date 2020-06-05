@@ -4,14 +4,16 @@ using BarSi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BarSi.Migrations
 {
     [DbContext(typeof(BarSiContext))]
-    partial class BarSiContextModelSnapshot : ModelSnapshot
+    [Migration("20200605160252_Init16")]
+    partial class Init16
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

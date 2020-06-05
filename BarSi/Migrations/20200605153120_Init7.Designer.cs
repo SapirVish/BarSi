@@ -4,14 +4,16 @@ using BarSi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BarSi.Migrations
 {
     [DbContext(typeof(BarSiContext))]
-    partial class BarSiContextModelSnapshot : ModelSnapshot
+    [Migration("20200605153120_Init7")]
+    partial class Init7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,10 +143,12 @@ namespace BarSi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("PatientStatus");
                 });
@@ -181,6 +185,13 @@ namespace BarSi.Migrations
                         .WithMany("Patients")
                         .HasForeignKey("HospitalId");
 
+                    b.HasOne("BarSi.Models.PatientStatus", "Status")
+                        .WithMany("patients")
+                        .HasForeignKey("StatusId");
+                });
+
+            modelBuilder.Entity("BarSi.Models.PatientStatus", b =>
+                {
                     b.HasOne("BarSi.Models.PatientStatus", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId");
