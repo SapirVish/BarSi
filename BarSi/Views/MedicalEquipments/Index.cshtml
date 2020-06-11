@@ -1,13 +1,13 @@
-﻿@model IEnumerable<BarSi.Models.Hospital>
+﻿@model IEnumerable<BarSi.Models.MedicalEquipment>
 
 @{
-    ViewData["Title"] = "All Hospitals";
+    ViewData["Title"] = "All Medical Equipment";
 }
 
-    <h1>All Hospitals</h1>
+    <h1>All Medical Equipment</h1>
 
 <p>
-    <a asp-action="Create">Add New Hospital</a>
+    <a asp-action="Create">Add New Medical Equipment</a>
 </p>
 <table class="table">
     <thead>
@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City.Name)
+                @Html.DisplayNameFor(model => model.Price)
             </th>
             <th></th>
         </tr>
@@ -28,7 +28,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City.Name)
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

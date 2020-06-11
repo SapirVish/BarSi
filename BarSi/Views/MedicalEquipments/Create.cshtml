@@ -1,10 +1,10 @@
-﻿@model BarSi.Models.Hospital
+﻿@model BarSi.Models.MedicalEquipment
 
 @{
-    ViewData["Title"] = "Add Hospital";
+    ViewData["Title"] = "Add New Medical Equipment";
 }
 
-    <h1>Add Hospital</h1>
+    <h1>Add New Medical Equipment</h1>
 
 <hr />
 <div class="row">
@@ -17,8 +17,9 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="City" class="control-label">City</label>
-                <select name="City" class="form-control" asp-items="ViewBag.Cities"></select>
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

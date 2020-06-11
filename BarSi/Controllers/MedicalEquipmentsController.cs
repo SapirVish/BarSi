@@ -10,22 +10,22 @@ using BarSi.Models;
 
 namespace BarSi.Controllers
 {
-    public class HospitalsController : Controller
+    public class MedicalEquipmentsController : Controller
     {
         private readonly BarSiContext _context;
 
-        public HospitalsController(BarSiContext context)
+        public MedicalEquipmentsController(BarSiContext context)
         {
             _context = context;
         }
 
-        // GET: Hospitals
+        // GET: MedicalEquipments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Hospital.Include(h => h.City).ToListAsync());
+            return View(await _context.MedicalEquipment.ToListAsync());
         }
 
-        // GET: Hospitals/Details/5
+        // GET: MedicalEquipments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,44 +33,39 @@ namespace BarSi.Controllers
                 return NotFound();
             }
 
-            var hospital = await _context.Hospital
-                .Include(h => h.City)
-                .Include(h => h.Doctors).ThenInclude(d => d.City)
-                .Include(h => h.Patients).ThenInclude(p => p.City)
+            var medicalEquipment = await _context.MedicalEquipment
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (hospital == null)
+            if (medicalEquipment == null)
             {
                 return NotFound();
             }
 
-            return View(hospital);
+            return View(medicalEquipment);
         }
 
-        // GET: Hospitals/Create
+        // GET: MedicalEquipments/Create
         public IActionResult Create()
         {
-            ViewData["Cities"] = new SelectList(_context.City, "Id", "Name");
             return View();
         }
 
-        // POST: Hospitals/Create
+        // POST: MedicalEquipments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Hospital hospital, int City)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price")] MedicalEquipment medicalEquipment)
         {
             if (ModelState.IsValid)
             {
-                hospital.City = _context.City.First(c => c.Id == City);
-                _context.Add(hospital);
+                _context.Add(medicalEquipment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(hospital);
+            return View(medicalEquipment);
         }
 
-        // GET: Hospitals/Edit/5
+        // GET: MedicalEquipments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,39 +73,36 @@ namespace BarSi.Controllers
                 return NotFound();
             }
 
-            var hospital = await _context.Hospital.Include(c => c.City).FirstAsync(h => h.Id == id);
-            if (hospital == null)
+            var medicalEquipment = await _context.MedicalEquipment.FindAsync(id);
+            if (medicalEquipment == null)
             {
                 return NotFound();
             }
-            ViewData["Cities"] = new SelectList(_context.City, "Id", "Name", hospital.City.Id);
-            return View(hospital);
+            return View(medicalEquipment);
         }
 
-        // POST: Hospitals/Edit/5
+        // POST: MedicalEquipments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Hospital hospital, int City)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price")] MedicalEquipment medicalEquipment)
         {
-            if (id != hospital.Id)
+            if (id != medicalEquipment.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                hospital.City = _context.City.First(c => c.Id == City);
-
                 try
                 {
-                    _context.Update(hospital);
+                    _context.Update(medicalEquipment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HospitalExists(hospital.Id))
+                    if (!MedicalEquipmentExists(medicalEquipment.Id))
                     {
                         return NotFound();
                     }
@@ -121,10 +113,10 @@ namespace BarSi.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(hospital);
+            return View(medicalEquipment);
         }
 
-        // GET: Hospitals/Delete/5
+        // GET: MedicalEquipments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -132,30 +124,30 @@ namespace BarSi.Controllers
                 return NotFound();
             }
 
-            var hospital = await _context.Hospital.Include(c => c.City)
+            var medicalEquipment = await _context.MedicalEquipment
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (hospital == null)
+            if (medicalEquipment == null)
             {
                 return NotFound();
             }
 
-            return View(hospital);
+            return View(medicalEquipment);
         }
 
-        // POST: Hospitals/Delete/5
+        // POST: MedicalEquipments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var hospital = await _context.Hospital.FindAsync(id);
-            _context.Hospital.Remove(hospital);
+            var medicalEquipment = await _context.MedicalEquipment.FindAsync(id);
+            _context.MedicalEquipment.Remove(medicalEquipment);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool HospitalExists(int id)
+        private bool MedicalEquipmentExists(int id)
         {
-            return _context.Hospital.Any(e => e.Id == id);
+            return _context.MedicalEquipment.Any(e => e.Id == id);
         }
     }
 }

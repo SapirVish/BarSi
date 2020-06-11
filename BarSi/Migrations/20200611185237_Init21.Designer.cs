@@ -4,14 +4,16 @@ using BarSi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BarSi.Migrations
 {
     [DbContext(typeof(BarSiContext))]
-    partial class BarSiContextModelSnapshot : ModelSnapshot
+    [Migration("20200611185237_Init21")]
+    partial class Init21
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,13 +204,13 @@ namespace BarSi.Migrations
 
             modelBuilder.Entity("BarSi.Models.MedicalEquipmentSupply", b =>
                 {
-                    b.HasOne("BarSi.Models.Hospital", "Hospital")
+                    b.HasOne("BarSi.Models.MedicalEquipment", "MedicalEquipment")
                         .WithMany("medicalEquipmentSupplies")
                         .HasForeignKey("HospitalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BarSi.Models.MedicalEquipment", "MedicalEquipment")
+                    b.HasOne("BarSi.Models.Hospital", "Hospital")
                         .WithMany("medicalEquipmentSupplies")
                         .HasForeignKey("MedicalEquipmentId")
                         .OnDelete(DeleteBehavior.Cascade)

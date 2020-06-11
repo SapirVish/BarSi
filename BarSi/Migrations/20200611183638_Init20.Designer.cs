@@ -4,14 +4,16 @@ using BarSi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BarSi.Migrations
 {
     [DbContext(typeof(BarSiContext))]
-    partial class BarSiContextModelSnapshot : ModelSnapshot
+    [Migration("20200611183638_Init20")]
+    partial class Init20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,21 +108,6 @@ namespace BarSi.Migrations
                     b.ToTable("MedicalEquipment");
                 });
 
-            modelBuilder.Entity("BarSi.Models.MedicalEquipmentSupply", b =>
-                {
-                    b.Property<int>("HospitalId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MedicalEquipmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("HospitalId", "MedicalEquipmentId");
-
-                    b.HasIndex("MedicalEquipmentId");
-
-                    b.ToTable("MedicalEquipmentSupply");
-                });
-
             modelBuilder.Entity("BarSi.Models.Patient", b =>
                 {
                     b.Property<int>("Id")
@@ -198,21 +185,6 @@ namespace BarSi.Migrations
                     b.HasOne("BarSi.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
-                });
-
-            modelBuilder.Entity("BarSi.Models.MedicalEquipmentSupply", b =>
-                {
-                    b.HasOne("BarSi.Models.Hospital", "Hospital")
-                        .WithMany("medicalEquipmentSupplies")
-                        .HasForeignKey("HospitalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BarSi.Models.MedicalEquipment", "MedicalEquipment")
-                        .WithMany("medicalEquipmentSupplies")
-                        .HasForeignKey("MedicalEquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BarSi.Models.Patient", b =>

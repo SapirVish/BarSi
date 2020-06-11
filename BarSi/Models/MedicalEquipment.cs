@@ -12,5 +12,7 @@ namespace BarSi.Models
         public string Name { get; set; }
 
         public int Price { get; set; }
+
+        public IEnumerable<MedicalEquipmentSupply> medicalEquipmentSupplies { get; set; }
     }
 }

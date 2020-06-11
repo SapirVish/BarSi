@@ -1,12 +1,11 @@
 ﻿@model BarSi.Models.Hospital
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Hospital";
 }
 
-<h1>Edit</h1>
+<h1>Edit Hospital</h1>
 
-<h4>Hospital</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -17,6 +16,10 @@
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="City" class="control-label">City</label>
+                <select name="City" class="form-control" asp-items="ViewBag.Cities"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
