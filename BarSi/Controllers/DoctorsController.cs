@@ -22,7 +22,7 @@ namespace BarSi.Controllers
         // GET: Doctors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Doctor.ToListAsync());
+            return View(await _context.Doctor.Include(d => d.City).Include(d => d.Hospital).ToListAsync());
         }
 
         // GET: Doctors/Details/5
@@ -33,7 +33,7 @@ namespace BarSi.Controllers
                 return NotFound();
             }
 
-            var doctor = await _context.Doctor
+            var doctor = await _context.Doctor.Include(d => d.City).Include(d => d.Hospital)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (doctor == null)
             {
@@ -46,6 +46,8 @@ namespace BarSi.Controllers
         // GET: Doctors/Create
         public IActionResult Create()
         {
+            ViewData["Hospitals"] = new SelectList(_context.Hospital, "Id", "Name");
+            ViewData["Cities"] = new SelectList(_context.City, "Id", "Name");
             return View();
         }
 
@@ -54,10 +56,11 @@ namespace BarSi.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Birthdate")] Doctor doctor)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Birthdate")] Doctor doctor, int Hospital, int City)
         {
             if (ModelState.IsValid)
             {
+                UpdateComplexDoctorProps(doctor, Hospital, City);
                 _context.Add(doctor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -73,11 +76,14 @@ namespace BarSi.Controllers
                 return NotFound();
             }
 
-            var doctor = await _context.Doctor.FindAsync(id);
+            var doctor = await _context.Doctor.Include(d => d.City).Include(d => d.Hospital).FirstAsync(d => d.Id == id);
             if (doctor == null)
             {
                 return NotFound();
             }
+            ViewData["Hospitals"] = new SelectList(_context.Hospital, "Id", "Name", doctor.Hospital.Id);
+            ViewData["Cities"] = new SelectList(_context.City, "Id", "Name", doctor.City.Id);
+
             return View(doctor);
         }
 
@@ -86,7 +92,7 @@ namespace BarSi.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Birthdate")] Doctor doctor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Birthdate")] Doctor doctor, int Hospital, int City)
         {
             if (id != doctor.Id)
             {
@@ -95,6 +101,8 @@ namespace BarSi.Controllers
 
             if (ModelState.IsValid)
             {
+                UpdateComplexDoctorProps(doctor, Hospital, City);
+
                 try
                 {
                     _context.Update(doctor);
@@ -124,7 +132,7 @@ namespace BarSi.Controllers
                 return NotFound();
             }
 
-            var doctor = await _context.Doctor
+            var doctor = await _context.Doctor.Include(d => d.City).Include(d => d.Hospital)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (doctor == null)
             {
@@ -148,6 +156,12 @@ namespace BarSi.Controllers
         private bool DoctorExists(int id)
         {
             return _context.Doctor.Any(e => e.Id == id);
+        }
+
+        private void UpdateComplexDoctorProps(Doctor doctor, int hospital, int city)
+        {
+            doctor.Hospital = _context.Hospital.First(h => h.Id == hospital);
+            doctor.City = _context.City.First(c => c.Id == city);
         }
     }
 }

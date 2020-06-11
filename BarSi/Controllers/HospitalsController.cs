@@ -22,7 +22,7 @@ namespace BarSi.Controllers
         // GET: Hospitals
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Hospital.ToListAsync());
+            return View(await _context.Hospital.Include(c => c.City).ToListAsync());
         }
 
         // GET: Hospitals/Details/5

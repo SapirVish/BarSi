@@ -35,6 +35,7 @@ namespace BarSi.Controllers
             }
 
             var patient = await _context.Patient
+                .Include(p => p.Hospital).Include(p => p.Status).Include(p => p.City).Include(p => p.Doctor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (patient == null)
             {
@@ -66,10 +67,7 @@ namespace BarSi.Controllers
 
             if (ModelState.IsValid)
             {
-                patient.Hospital = _context.Hospital.First(h => h.Id == Hospital);
-                patient.Doctor = _context.Doctor.First(d => d.Id == Doctor);
-                patient.City = _context.City.First(c => c.Id == City);
-                patient.Status = _context.PatientStatus.First(c => c.Id == Status);
+                UpdateComplexPetientProps(patient, Hospital, City, Doctor, Status);
 
                 _context.Add(patient);
                 await _context.SaveChangesAsync();
@@ -107,7 +105,7 @@ namespace BarSi.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MedicalBackgroundHispory,Id,FirstName,LastName,Birthdate")] Patient patient)
+        public async Task<IActionResult> Edit(int id, [Bind("MedicalBackgroundHispory,Id,FirstName,LastName,Birthdate")] Patient patient, int Hospital, int City, int Doctor, int Status)
         {
             if (id != patient.Id)
             {
@@ -116,6 +114,8 @@ namespace BarSi.Controllers
 
             if (ModelState.IsValid)
             {
+                UpdateComplexPetientProps(patient, Hospital, City, Doctor, Status);
+
                 try
                 {
                     _context.Update(patient);
@@ -145,7 +145,8 @@ namespace BarSi.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patient
+            var patient = await _context.Patient.Include(p => p.City).Include(p => p.Doctor)
+                .Include(p => p.Status).Include(p => p.Hospital)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (patient == null)
             {
@@ -169,6 +170,14 @@ namespace BarSi.Controllers
         private bool PatientExists(int id)
         {
             return _context.Patient.Any(e => e.Id == id);
+        }
+
+        private void UpdateComplexPetientProps(Patient patient, int hospital, int city, int doctor, int status)
+        {
+            patient.Hospital = _context.Hospital.First(h => h.Id == hospital);
+            patient.Doctor = _context.Doctor.First(d => d.Id == doctor);
+            patient.City = _context.City.First(c => c.Id == city);
+            patient.Status = _context.PatientStatus.First(c => c.Id == status);
         }
     }
 }

@@ -1,21 +1,14 @@
 ﻿@model BarSi.Models.Patient
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Details About Patient";
 }
 
-<h1>Details</h1>
+<h1>Details About Patient</h1>
 
 <div>
-    <h4>Patient</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MedicalBackgroundHispory)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MedicalBackgroundHispory)
-        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
@@ -35,6 +28,12 @@
             @Html.DisplayFor(model => model.Birthdate)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MedicalBackgroundHispory)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MedicalBackgroundHispory)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Hospital)
         </dt>
         <dd class="col-sm-10">
@@ -44,20 +43,19 @@
             Doctor Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Doctor.FirstName)
-            @Html.DisplayFor(model => model.Doctor.LastName)
+            @Html.DisplayFor(model => model.Doctor.FirstName) @Html.DisplayFor(model => model.Doctor.LastName)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.City)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City)
+            @Html.DisplayFor(model => model.City.Name)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+            @Html.DisplayFor(model => model.Status.Status)
         </dd>
     </dl>
 </div>

@@ -1,12 +1,11 @@
 ﻿@model BarSi.Models.Doctor
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add Doctor";
 }
 
-<h1>Create</h1>
+<h1>Add Doctor</h1>
 
-<h4>Doctor</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -26,6 +25,14 @@
                 <label asp-for="Birthdate" class="control-label"></label>
                 <input asp-for="Birthdate" class="form-control" />
                 <span asp-validation-for="Birthdate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Hospital" class="control-label">Hospital</label>
+                <select name="Hospital" class="form-control" asp-items="ViewBag.Hospitals"></select>
+            </div>
+            <div class="form-group">
+                <label for="City" class="control-label">City</label>
+                <select name="City" class="form-control" asp-items="ViewBag.Cities"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

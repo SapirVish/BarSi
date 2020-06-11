@@ -1,20 +1,17 @@
 ﻿@model IEnumerable<BarSi.Models.Patient>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "All Patients";
 }
 
-<h1>Index</h1>
+    <h1>All Patients</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add Patient</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.MedicalBackgroundHispory)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -23,6 +20,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Birthdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MedicalBackgroundHispory)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Hospital.Name)
@@ -43,9 +43,6 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.MedicalBackgroundHispory)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
@@ -53,6 +50,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Birthdate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicalBackgroundHispory)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Hospital.Name)
@@ -64,7 +64,7 @@
                 @Html.DisplayFor(modelItem => item.Status.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Doctor.FirstName) 
+                @Html.DisplayFor(modelItem => item.Doctor.FirstName)
                 @Html.DisplayFor(modelItem => item.Doctor.LastName)
             </td>
             <td>

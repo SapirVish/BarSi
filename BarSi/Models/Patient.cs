@@ -8,7 +8,7 @@ namespace BarSi.Models
 {
     public class Patient: Person
     {
-        [Display(Name = "Medical Hispory")]
+        [Display(Name = "Medical History")]
         public string MedicalBackgroundHispory { get; set; }
 
         public Hospital Hospital { get; set; }
