@@ -1,0 +1,37 @@
+﻿.table-hover tbody tr:hover {
+    background-color: rgb(128, 128, 128, 0.3);
+}
+
+.bi.bi-person-plus{
+    margin: 0 5px 2px 2px;
+    color:black;
+}
+
+.fa.fa-plus{
+    padding: 0 5px 0 0;
+}
+
+#patients-table{
+    margin-top: 15px;
+}
+
+.title-component {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items:baseline;
+}
+
+#filterPatientsComponent {
+    padding: 7px;
+    margin-top: 3PX;
+    border-radius: 10px;
+}
+
+form .col {
+    margin: 5px 0;
+}
+
+#patientSearchButton{
+    float: right
+}

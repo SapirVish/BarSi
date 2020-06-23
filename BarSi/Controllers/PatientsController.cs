@@ -26,6 +26,27 @@ namespace BarSi.Controllers
                 .Include(p => p.Status).Include(p => p.Hospital).ToListAsync());
         }
 
+        public async Task<IActionResult> Search(string name, DateTime birthdate, int hospital, 
+            int city, int status, string doctorName)
+        {
+            var patients = _context.Patient.AsQueryable();
+            if (!String.IsNullOrEmpty(name))
+                patients = patients.Where(p => p.FirstName.Contains(name) || p.LastName.Contains(name));
+            if(birthdate != DateTime.MinValue)
+                patients = patients.Where(p => p.Birthdate.Equals(birthdate));
+            if (hospital != 0)
+                patients = patients.Where(p => p.Hospital.Id == hospital);
+            if (city != 0)
+                patients = patients.Where(p => p.Hospital.Id == hospital);
+            if (status != 0)
+                patients = patients.Where(p => p.Status.Id == status);
+            if (!String.IsNullOrEmpty(doctorName))
+                patients = patients.Where(p => p.Doctor.FirstName.Contains(name) || p.Doctor.LastName.Contains(name));
+
+            return View("Index", await patients.Include(p => p.City).Include(p => p.Doctor)
+                .Include(p => p.Status).Include(p => p.Hospital).ToListAsync());
+        }
+
         // GET: Patients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
