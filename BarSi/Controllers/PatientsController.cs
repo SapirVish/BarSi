@@ -26,6 +26,44 @@ namespace BarSi.Controllers
                 .Include(p => p.Status).Include(p => p.Hospital).ToListAsync());
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Search(string name, DateTime birthdate, string hospital,
+            string city, string status, string doctorName)
+        {
+            var patients = _context.Patient.AsQueryable();
+            if (!String.IsNullOrEmpty(name))
+                patients = patients.Where(p => p.FirstName.Contains(name) || p.LastName.Contains(name));
+            if (birthdate != DateTime.MinValue)
+                patients = patients.Where(p => p.Birthdate.Equals(birthdate));
+            if (!String.IsNullOrEmpty(hospital))
+                patients = patients.Where(p => p.Hospital.Name.Contains(hospital));
+            if (!String.IsNullOrEmpty(city))
+                patients = patients.Where(p => p.Hospital.Name.Contains(hospital));
+            if (!String.IsNullOrEmpty(status))
+                patients = patients.Where(p => p.Status.Status.Contains(status));
+            if (!String.IsNullOrEmpty(doctorName))
+                patients = patients.Where(p => p.Doctor.FirstName.Contains(doctorName) || p.Doctor.LastName.Contains(doctorName));
+
+            var patients_results = await patients.Include(p => p.City).Include(p => p.Doctor)
+                .Include(p => p.Status).Include(p => p.Hospital).ToListAsync();
+
+            var patients_relevent_data = patients_results.Select(p =>
+            new
+            {
+                Id = p.Id,
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                Birthdate = p.Birthdate.ToString("dd-MM-yyyy"),
+                MedicalBackgroundHispory = p.MedicalBackgroundHispory,
+                Hospital =p.Hospital.Name,
+                City = p.City.Name,
+                Status = p.Status.Status,
+                DoctorName = p.Doctor.FirstName + ' ' + p.Doctor.LastName
+            }).ToList();
+
+            return Json(patients_relevent_data);
+        }
+
         // GET: Patients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -49,7 +87,7 @@ namespace BarSi.Controllers
         public IActionResult Create()
         {
             ViewData["Hospitals"] = new SelectList(_context.Hospital, "Id", "Name");
-            ViewData["Doctors"] = from doctor in _context.Doctor 
+            ViewData["Doctors"] = from doctor in _context.Doctor
                                   select new SelectListItem { Text = doctor.FirstName + " " + doctor.LastName, Value = doctor.Id.ToString() };
             ViewData["Cities"] = new SelectList(_context.City, "Id", "Name");
             ViewData["PatientStatus"] = new SelectList(_context.PatientStatus, "Id", "Status");
