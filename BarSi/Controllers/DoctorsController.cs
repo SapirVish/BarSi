@@ -25,6 +25,36 @@ namespace BarSi.Controllers
             return View(await _context.Doctor.Include(d => d.City).Include(d => d.Hospital).ToListAsync());
         }
 
+        public async Task<IActionResult> Search(string first_name, string last_name, DateTime birthdate, int city, int hospital)
+        {
+            var doctors = _context.Patient.AsQueryable();
+            if (!String.IsNullOrEmpty(first_name))
+                doctors = doctors.Where(d => d.FirstName.ToLower().Equals(first_name.ToLower()));
+            if (!String.IsNullOrEmpty(last_name))
+                doctors = doctors.Where(d => d.LastName.ToLower().Equals(last_name.ToLower()));
+            if (birthdate != DateTime.MinValue)
+                doctors = doctors.Where(d => d.Birthdate.Equals(birthdate));
+            if (hospital != 0)
+                doctors = doctors.Where(d => d.Hospital.Id == hospital);
+            if (city != 0)
+                doctors = doctors.Where(d => d.City.Id == city);
+
+
+            var doctors_results = await doctors.Include(d => d.City).Include(d => d.Hospital).ToListAsync();
+            var doctors_relevent_data = doctors_results.Select(d =>
+            new
+            {
+                Id = d.Id,
+                FirstName = d.FirstName,
+                LastName = d.LastName,
+                Birthdate = d.Birthdate.ToString("dd-MM-yyyy"),
+                Hospital = d.Hospital.Name,
+                City = d.City.Name,
+            }).ToList();
+
+            return Json(doctors_relevent_data);
+        }
+
         // GET: Doctors/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -9,15 +9,16 @@ namespace BarSi.Models
 {
     public class Person
     {
+        [Required]
         public int Id { get; set; }
 
         [RegularExpression(@"^[A-Za-z\s]*$")]
-        [StringLength(50)]
+        [StringLength(50, MinimumLength =2)]
         [Display(Name ="First Name")]
         public string FirstName { get; set; }
 
         [RegularExpression(@"^[A-Za-z\s]*$")]
-        [StringLength(50)]
+        [StringLength(50, MinimumLength =2)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
