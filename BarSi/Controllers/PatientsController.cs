@@ -38,7 +38,7 @@ namespace BarSi.Controllers
             if (!String.IsNullOrEmpty(hospital))
                 patients = patients.Where(p => p.Hospital.Name.Contains(hospital));
             if (!String.IsNullOrEmpty(city))
-                patients = patients.Where(p => p.Hospital.Name.Contains(hospital));
+                patients = patients.Where(p => p.City.Name.Contains(hospital));
             if (!String.IsNullOrEmpty(status))
                 patients = patients.Where(p => p.Status.Status.Contains(status));
             if (!String.IsNullOrEmpty(doctorName))
