@@ -1,8 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Media\Videos\הנגיף עדיין כאן - אל תזלזלו בו.mp4" />
+    <None Include="wwwroot\Media\Videos\הנגיף עדיין כאן - אל תזלזלו בו.ogg" />
+    <None Include="wwwroot\Media\Videos\הנגיף עדיין כאן - אל תזלזלו בו.webm" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.4" />
