@@ -7,6 +7,7 @@
 @{
     ViewData["Title"] = "All Patients";
 }
+<header>
     <div class="title-component">
         <h1>
             All Patients
@@ -19,7 +20,7 @@
                 <i class="fa fa-chevron-circle-down" aria-hidden="true" id="filter-cart-icon"></i>
                 filter patients
             </button>
-            
+
         </div>
     </div>
     <div class="collapse jumbotron" id="filterPatientsComponent">
@@ -32,10 +33,10 @@
                     <input type="date" class="form-control" placeholder="Birthday" id="birthdayFilter" name="birthday">
                 </div>
                 <div class="col col-md-3">
-                    <input type="text" class="form-control" placeholder="Hospital"  id="hospitalFilter" name="hospital">
+                    <input type="text" class="form-control" placeholder="Hospital" id="hospitalFilter" name="hospital">
                 </div>
                 <div class="col col-md-3">
-                    <input type="text" class="form-control" placeholder="City"  id="cityFilter" name="city">
+                    <input type="text" class="form-control" placeholder="City" id="cityFilter" name="city">
                 </div>
             </div>
             <div class="row">
@@ -43,7 +44,7 @@
                     <input type="text" class="form-control" placeholder="Staus" id="statusFilter" name="status">
                 </div>
                 <div class="col col-md-3">
-                    <input type="text" class="form-control" placeholder="Doctor Name"  id="doctorFilter" name="doctorName">
+                    <input type="text" class="form-control" placeholder="Doctor Name" id="doctorFilter" name="doctorName">
                 </div>
                 <div class="col col-md-3">
                 </div>
@@ -53,6 +54,8 @@
             </div>
         </form>
     </div>
+
+</header>
 
 <table class="table table-striped table-bordered table-hover" id="patients-table">
     <thead class="thead-light">
@@ -153,7 +156,7 @@
             ${doctorName}
         </td>
         <td>
-            <a href="Patients/Edit/{Id}"="" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+            <a href="Patients/Edit/{Id}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
             <a href="Patients/Details/{Id}" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle"></i></a>
             <a href="Patients/Delete/{Id}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
         </td>
