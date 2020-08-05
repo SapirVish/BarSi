@@ -8,9 +8,28 @@
     width: 32%;
 }
 
+#statistics {
+    width: 65%;
+}
+
+.collapse.show {
+    overflow-x: scroll;
+}
+
 #global-covid19-data {
     height: 500px;
     overflow-y: scroll;
-    margin: 0 20px 0 0;
-    width: 65%;
+}
+
+#patients-by-hospital-graph{
+    height: 400px;
+}
+
+#patients-by-doctor-graph {
+    height: 400px;
+}
+
+svg g {
+    font-size: 15px;
+    font-weight: bold;
 }

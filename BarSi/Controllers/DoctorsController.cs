@@ -183,6 +183,33 @@ namespace BarSi.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Doctors/PatientsForDoctorStatistic
+        public IActionResult PatientsForDoctorStatistic()
+        {
+            var patientsByDoctor = from p in _context.Patient
+                                     group p by p.Doctor.Id into g
+                                     select new
+                                     {
+                                         g.Key,
+                                         Count = g.Count()
+                                     };
+
+            var patientsCountByDoctor = from pd in patientsByDoctor
+                                          join d in _context.Doctor
+                                          on pd.Key equals d.Id
+                                          select new { DoctorId = d.Id, PatientsCount = pd.Count };
+
+            var patientsForDoctorStatistic = from pd in patientsCountByDoctor
+                                             group pd by pd.PatientsCount into g
+                                             select new
+                                             {
+                                                 PatientsCount = g.Key,
+                                                 DoctorsCount = g.Count()
+                                             }; ;
+
+            return Json(patientsForDoctorStatistic.ToList());
+        }
+
         private bool DoctorExists(int id)
         {
             return _context.Doctor.Any(e => e.Id == id);
