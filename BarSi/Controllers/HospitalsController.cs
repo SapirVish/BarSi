@@ -153,6 +153,25 @@ namespace BarSi.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Hospitals/PatientsByHospitalCount
+        public IActionResult PatientsByHospitalCount()
+        {
+            var patientsByHospital = from p in _context.Patient
+                                     group p by p.Hospital.Id into g
+                                     select new
+                                     {
+                                         g.Key,
+                                         Count = g.Count()
+                                     };
+
+            var patientsCountByHospital = from ph in patientsByHospital
+                                          join h in _context.Hospital
+                                          on ph.Key equals h.Id
+                                          select new { HospitalName = h.Name, ph.Count };
+
+            return Json(patientsCountByHospital.ToList());
+        }
+
         private bool HospitalExists(int id)
         {
             return _context.Hospital.Any(e => e.Id == id);

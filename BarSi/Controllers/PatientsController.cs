@@ -44,10 +44,10 @@ namespace BarSi.Controllers
             if (!String.IsNullOrEmpty(doctorName))
                 patients = patients.Where(p => p.Doctor.FirstName.Contains(doctorName) || p.Doctor.LastName.Contains(doctorName));
 
-            var patients_results = await patients.Include(p => p.City).Include(p => p.Doctor)
+            var patientsResults = await patients.Include(p => p.City).Include(p => p.Doctor)
                 .Include(p => p.Status).Include(p => p.Hospital).ToListAsync();
 
-            var patients_relevent_data = patients_results.Select(p =>
+            var patientsReleventData = patientsResults.Select(p =>
             new
             {
                 Id = p.Id,
@@ -61,7 +61,7 @@ namespace BarSi.Controllers
                 DoctorName = p.Doctor.FirstName + ' ' + p.Doctor.LastName
             }).ToList();
 
-            return Json(patients_relevent_data);
+            return Json(patientsReleventData);
         }
 
         // GET: Patients/Details/5

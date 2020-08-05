@@ -55,7 +55,7 @@ namespace BarSi
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Patients}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
