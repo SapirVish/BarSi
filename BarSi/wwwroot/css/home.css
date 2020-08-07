@@ -4,32 +4,45 @@
     width: 100%;
 }
 
-.video-div {
-    width: 32%;
-}
-
-#statistics {
-    width: 65%;
-}
-
 .collapse.show {
     overflow-x: scroll;
 }
 
-#global-covid19-data {
-    height: 500px;
-    overflow-y: scroll;
+#statistics {
+    text-align: center;
 }
 
-#patients-by-hospital-graph{
-    height: 400px;
+#global-covid19-data {
+    height: 70vh;
+    overflow-y: scroll;
+    font-size:14px
+}
+
+#global-covid19-data td {
+    padding: 3px;
+    vertical-align: middle;
+}
+
+#patients-by-hospital-graph {
+    height: 55vh;
 }
 
 #patients-by-doctor-graph {
-    height: 400px;
+    height: 55vh;
 }
 
 svg g {
     font-size: 15px;
     font-weight: bold;
+}
+
+#statistics-title {
+    padding: 4px;
+    text-shadow: 2px 1px grey;
+}
+
+#statistics-content {
+    padding: 0px 5px;
+    column-count: 2;
+    column-gap: 20px;
 }

@@ -1,4 +1,14 @@
-﻿#header {
+﻿@font-face {
+    font-family: "poppings";
+    src: url("../lib/fonts/poppings/Poppins-Regular.ttf");
+}
+
+@font-face {
+    font-family: "roboto";
+    src: url("../lib/fonts/roboto/Roboto-Regular.ttf");
+}
+
+#header {
     margin-bottom: 2%;
 }
 
@@ -10,14 +20,26 @@
     margin-right: 2%;
 }
 
-.nav-item {
+#main-nav .nav-item {
     width: 11%;
+    border-radius: 10px;
+    transition-property: color, background-color;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+}
+
+#main-nav .nav-item:hover, #main-nav .nav-item:focus {
+    background-color: #317C82;
 }
 
 #medical-item {
-    width: 18%;
+    width: 18% !important;
 }
  
 #home-item {
    margin-right: 2%;
+}
+
+body {
+    font-family: roboto;
 }

@@ -5,4 +5,10 @@
 
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
+
+    var canvas = document.getElementById("footer-canvas");
+    var ctx = canvas.getContext("2d");
+    ctx.font = "15px Comic Sans MS";
+    ctx.textAlign = "center";
+    ctx.fillText("\u00A9 2020 - BarSi", 75, 20);
 });
