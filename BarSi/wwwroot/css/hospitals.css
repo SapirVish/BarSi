@@ -1,0 +1,19 @@
+﻿#hospial-table {
+    width: 45%;
+    margin-bottom: 1rem;
+    color: #212529;
+    float: left;
+}
+
+.mapouter {
+    width: 52%;
+    height: 85vh;
+    position: relative;
+    float: right;
+    margin-bottom: 7%;
+}
+
+#map-frame {
+    position:relative;
+    top:-50px; 
+}
