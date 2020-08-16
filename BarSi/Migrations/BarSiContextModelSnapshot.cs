@@ -205,6 +205,24 @@ namespace BarSi.Migrations
                     b.ToTable("PatientStatus");
                 });
 
+            modelBuilder.Entity("BarSi.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
             modelBuilder.Entity("BarSi.Models.Doctor", b =>
                 {
                     b.HasOne("BarSi.Models.City", "City")
