@@ -1,16 +1,21 @@
 ﻿@model IEnumerable<BarSi.Models.Hospital>
 
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="~/css/Hospitals.css">
+}
+
 @{
     ViewData["Title"] = "All Hospitals";
 }
 
-    <h1>All Hospitals</h1>
-
-<p>
-    <a asp-action="Create">Add New Hospital</a>
-</p>
-<table class="table">
-    <thead>
+<h1>
+    All Hospitals
+    <a asp-action="Create">
+        <button asp-action="Create" type="button" class="btn btn-outline-info add-new" data-toggle="tooltip" data-placement="top" title="Add New Hospital"><i class="fa fa-plus"></i>Add Doctor</button>
+    </a>
+</h1>
+<table class="table table-striped table-bordered table-hover" id="hospial-table">
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -22,20 +27,45 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div id='hospitalsMap' class="mapouter"></div>
+
+<script type='text/javascript'>
+    function loadMap() {
+        var map = new Microsoft.Maps.Map(document.getElementById('hospitalsMap'), {});
+        var layer = new Microsoft.Maps.Layer();
+
+        var hospitals = @Html.Raw(Json.Serialize(Model));
+        hospitals.forEach(hospital => {
+            var pushpin = new Microsoft.Maps.Pushpin(
+                new Microsoft.Maps.Location(hospital.location.lat, hospital.location.lng), {
+                title: hospital.name
+            });
+            layer.add(pushpin);
+        });
+
+        map.layers.insert(layer);
+        map.setView({
+            center: new Microsoft.Maps.Location(31.728371, 35.040161),
+            zoom: 7
+        });
+    }
+</script>
+<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AvIU-bI7fquY8nNWndVVTeVfkCtQWK3JMv-sHl-kIsy4Nb2CCPPc_J9NETdmtdwg&callback=loadMap' async defer></script>

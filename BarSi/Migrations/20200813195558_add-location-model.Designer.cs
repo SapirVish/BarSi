@@ -4,14 +4,16 @@ using BarSi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BarSi.Migrations
 {
     [DbContext(typeof(BarSiContext))]
-    partial class BarSiContextModelSnapshot : ModelSnapshot
+    [Migration("20200813195558_add-location-model")]
+    partial class addlocationmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,11 +102,11 @@ namespace BarSi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Lat")
-                        .HasColumnType("float");
+                    b.Property<int>("Lat")
+                        .HasColumnType("int");
 
-                    b.Property<double>("Lng")
-                        .HasColumnType("float");
+                    b.Property<int>("Lng")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

@@ -4,14 +4,16 @@ using BarSi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BarSi.Migrations
 {
     [DbContext(typeof(BarSiContext))]
-    partial class BarSiContextModelSnapshot : ModelSnapshot
+    [Migration("20200813191727_add-new-hospitals")]
+    partial class addnewhospitals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,9 +79,6 @@ namespace BarSi.Migrations
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LocationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
@@ -88,27 +87,7 @@ namespace BarSi.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("LocationId");
-
                     b.ToTable("Hospital");
-                });
-
-            modelBuilder.Entity("BarSi.Models.Location", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("Lat")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Lng")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("BarSi.Models.MedicalEquipment", b =>
@@ -221,10 +200,6 @@ namespace BarSi.Migrations
                     b.HasOne("BarSi.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
-
-                    b.HasOne("BarSi.Models.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("BarSi.Models.MedicalEquipmentSupply", b =>

@@ -23,5 +23,7 @@ namespace BarSi.Models
         public IEnumerable<Doctor> Doctors { get; set; }
 
         public IEnumerable<MedicalEquipmentSupply> medicalEquipmentSupplies { get; set; }
+
+        public Location Location { get; set; }
     }
 }
