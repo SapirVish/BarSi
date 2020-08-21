@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details About Hospital";
 }
 
-    <h1>Details About Hospital</h1>
+<h1>Details About Hospital</h1>
 
 <div>
     <hr />
@@ -23,12 +23,90 @@
         </dd>
     </dl>
 </div>
+
 <div>
     <a hidden="!(@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
 
 <div>
+    <div>
+        <h5>Medical Equipments</h5>
+        <table class="table col-5">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.medicalEquipmentSupplies.First().MedicalEquipment)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.medicalEquipmentSupplies.First().SupplyQuantity)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.medicalEquipmentSupplies)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MedicalEquipment.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SupplyQuantity)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="container">
+            <div class="row">
+                <button type="button" class="btn btn-primary add-new" data-toggle="modal" data-target="#SupplyModal" data-placement="top" title="add supply">
+                    <i class="fa fa-plus"></i>Add Supply
+                </button>
+                <div id="SupplyModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <form id="OrderForm" class="needs-validation" novalidate>
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Order Supply</h4>
+                                    <button class="close" data-dismiss="modal">
+                                        x
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input hidden type="number" id="HospitalId" name="HospitalId" value="@Model.Id"/>
+                                    
+                                    <div class="form-group">
+                                        <select name="EquipmentId" class="form-control" asp-items="ViewBag.Equipment" id="SupplyEquipment" required>
+                                            <option value="" disabled selected hidden>Medical Equipment</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please select a medical equipment.
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="number" placeholder="quantity" id="SupplyQuantity" min='1' name="Quantity" required />
+                                        <div class="invalid-feedback">
+                                            Please provide a valid number.
+                                        </div>
+                                    </div>
+                                    <p id="SupplyAvailable"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Order</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Hide</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
     <div>
         <h5>Doctors</h5>
         <table class="table col-5">
@@ -103,3 +181,12 @@
         </table>
     </div>
 </div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{
+    <script src="~/js/hospitals.js" asp-append-version="true"></script>
+}

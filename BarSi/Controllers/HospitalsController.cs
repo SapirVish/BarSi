@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BarSi.Data;
 using BarSi.Models;
+using System.Collections;
 using Microsoft.AspNetCore.Http;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace BarSi.Controllers
 {
@@ -39,11 +41,15 @@ namespace BarSi.Controllers
                 .Include(h => h.City)
                 .Include(h => h.Doctors).ThenInclude(d => d.City)
                 .Include(h => h.Patients).ThenInclude(p => p.City)
+                .Include(h => h.medicalEquipmentSupplies).ThenInclude(m => m.MedicalEquipment)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
             if (hospital == null)
             {
                 return NotFound();
             }
+
+            ViewBag.Equipment = new SelectList(_context.MedicalEquipment, "Id", "Name");
 
             return View(hospital);
         }
@@ -85,6 +91,61 @@ namespace BarSi.Controllers
             }
             return View(hospital);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Order(int HospitalId, int EquipmentId, int Quantity)
+        {
+            MedicalEquipmentSupply supply = _context.MedicalEquipmentSupply
+                .FirstOrDefault(mes => mes.HospitalId == HospitalId && mes.MedicalEquipmentId == EquipmentId);
+
+            if (supply != null)
+            {
+                supply.SupplyQuantity += Quantity;
+                _context.MedicalEquipmentSupply.Update(supply);
+            }
+            else
+            {
+                supply = new MedicalEquipmentSupply(
+                    _context.Hospital.First(h => h.Id == HospitalId),
+                    _context.MedicalEquipment.First(e => e.Id == EquipmentId),
+                    Quantity);
+
+                _context.MedicalEquipmentSupply.Add(supply);
+            }
+
+            await _context.SaveChangesAsync();
+
+            //Object obj = new object[] { HospitalId, Quantity };
+            var ab = new { HospitalId = HospitalId };
+            return Json(ab);
+        }
+
+        public JsonResult AvailableSupply(int? id)
+        {
+            var totalSupplyQuantity = _context.MedicalEquipment
+                .Where(e => e.Id == id)
+                .Select(e => e.Quantity);
+
+            var result = _context.MedicalEquipmentSupply
+                .Where(e => e.MedicalEquipmentId == id)
+                .GroupBy(mes => mes.MedicalEquipmentId)
+                .Select(g => new
+                    {
+                       // MedicalEquipmentId = g.Key,
+                        TotalSupplied = g.Sum(mes => mes.SupplyQuantity)
+                    });
+
+            var available = totalSupplyQuantity.First();
+           
+            if (result.Count() != 0)
+            {
+                available -= result.FirstOrDefault().TotalSupplied;
+            }
+
+            return Json(available);
+        }
+    
 
         // GET: Hospitals/Edit/5
         public async Task<IActionResult> Edit(int? id)
