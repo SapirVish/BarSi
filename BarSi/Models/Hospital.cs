@@ -13,6 +13,7 @@ namespace BarSi.Models
 
         [StringLength(50)]
         [RegularExpression(@"^[A-Za-z\s]*$")]
+        [Required]
         [Display(Name="Hospital Name")]
         public string Name { get; set; }
 
