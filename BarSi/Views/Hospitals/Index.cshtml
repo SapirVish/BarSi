@@ -11,7 +11,11 @@
 <h1>
     All Hospitals
     <a hidden="!(@ViewBag.IsAdmin)" asp-action="Create">
-        <button asp-action="Create" type="button" class="btn btn-outline-info add-new" data-toggle="tooltip" data-placement="top" title="Add New Hospital"><i class="fa fa-plus"></i>Add Hospital</button>
+        <button asp-action="Create" type="button" class="btn btn-outline-info add-new" 
+                data-toggle="tooltip" data-placement="top" title="Add New Hospital">
+            <i class="fa fa-plus"></i>
+            Add Hospital
+        </button>
     </a>
 </h1>
 <table class="table table-striped table-bordered table-hover" id="hospial-table">
