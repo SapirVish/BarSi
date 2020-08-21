@@ -65,11 +65,20 @@ namespace BarSi.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Hospital hospital, int City)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Hospital hospital, int City, double Latitude, double Longitude)
         {
             if (ModelState.IsValid)
             {
                 hospital.City = _context.City.First(c => c.Id == City);
+                Location hospitalLocation = new Location
+                {
+                    Lat = Latitude,
+                    Lng = Longitude
+                };
+                hospital.Location = hospitalLocation;
+
+                _context.Location.Add(hospitalLocation);
+                _context.SaveChanges();
                 _context.Add(hospital);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

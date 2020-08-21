@@ -37,6 +37,7 @@
 
 <div id='map' class="mapouter"></div>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type='text/javascript'>
     function loadEmptyMap() {
         var map = new Microsoft.Maps.Map(document.getElementById('map'), {});
@@ -53,12 +54,31 @@
                 new Microsoft.Maps.Location(e.location.latitude, e.location.longitude), {
             });
 
+            this.addHospitalLocationToForm(e.location);
+           
             if (layer){
                 layer.clear();
             }
-            layer.add(pushpin);
+            layer.add(pushpin);     
         });
     }
+    function addHospitalLocationToForm(location) {
+        $("#form-creation").submit(function( event ) {
+            event.preventDefault();
+            url = $(this).attr("action");
+            var postData = $(this).serializeArray();
+            postData.push({
+                name: 'Latitude', 
+                value: JSON.stringify(location.latitude)
+            });
+            postData.push({
+                name: 'Longitude', 
+                value: JSON.stringify(location.longitude)
+            });
+            $.post(url, postData, function(){});
+        })
+    }
+
 </script>
 <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AvIU-bI7fquY8nNWndVVTeVfkCtQWK3JMv-sHl-kIsy4Nb2CCPPc_J9NETdmtdwg&callback=loadEmptyMap' async defer></script>
 
