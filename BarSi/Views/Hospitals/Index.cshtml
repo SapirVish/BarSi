@@ -10,7 +10,7 @@
 
 <h1>
     All Hospitals
-    <a asp-action="Create">
+    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Create">
         <button asp-action="Create" type="button" class="btn btn-outline-info add-new" data-toggle="tooltip" data-placement="top" title="Add New Hospital"><i class="fa fa-plus"></i>Add Hospital</button>
     </a>
 </h1>
@@ -37,9 +37,9 @@
                     @Html.DisplayFor(modelItem => item.City.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>
+                    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>
                     <a asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>
+                    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>
                 </td>
             </tr>
         }

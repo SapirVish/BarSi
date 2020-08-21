@@ -60,6 +60,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit Patient</a> |
+    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@Model.Id">Edit Patient</a> |
     <a asp-action="Index">Back to Patients List</a>
 </div>

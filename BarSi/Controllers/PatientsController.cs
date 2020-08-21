@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BarSi.Data;
@@ -17,6 +18,8 @@ namespace BarSi.Controllers
         public PatientsController(BarSiContext context)
         {
             _context = context;
+            ViewData["IsAdmin"] = (HttpContext != null) && (HttpContext.Session != null) && 
+                                (HttpContext.Session.GetString("IsAdmin") == "true");
         }
 
         // GET: Patients
@@ -86,6 +89,11 @@ namespace BarSi.Controllers
         // GET: Patients/Create
         public IActionResult Create()
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewData["Hospitals"] = new SelectList(_context.Hospital, "Id", "Name");
             ViewData["Doctors"] = from doctor in _context.Doctor
                                   select new SelectListItem { Text = doctor.FirstName + " " + doctor.LastName, Value = doctor.Id.ToString() };
@@ -117,6 +125,11 @@ namespace BarSi.Controllers
         // GET: Patients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -178,6 +191,11 @@ namespace BarSi.Controllers
         // GET: Patients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -216,6 +234,12 @@ namespace BarSi.Controllers
             patient.Doctor = _context.Doctor.First(d => d.Id == doctor);
             patient.City = _context.City.First(c => c.Id == city);
             patient.Status = _context.PatientStatus.First(c => c.Id == status);
+        }
+
+        private bool IsAdmin()
+        {
+            return (HttpContext != null) && (HttpContext.Session != null) &&
+                                 (HttpContext.Session.GetString("IsAdmin") == "true");
         }
     }
 }
