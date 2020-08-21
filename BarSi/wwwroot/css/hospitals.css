@@ -5,6 +5,19 @@
     float: left;
 }
 
+#hospial-creation {
+    width: 45%;
+    float: left;
+}
+
+#form-creation {
+    width: 50%;
+}
+
+#create-button {
+    margin-top: 5%;
+}
+
 .mapouter {
     width: 52%;
     height: 85vh;
