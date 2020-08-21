@@ -7,7 +7,7 @@
     <h1>All Medical Equipment</h1>
 
 <p>
-    <a asp-action="Create">Add New Medical Equipment</a>
+    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Create">Add New Medical Equipment</a>
 </p>
 <table class="table">
     <thead>
@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a hidden="!(@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a hidden="!(@ViewBag.IsAdmin)" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BarSi.Data;
 using BarSi.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BarSi.Controllers
 {
@@ -16,7 +17,8 @@ namespace BarSi.Controllers
 
         public DoctorsController(BarSiContext context)
         {
-            _context = context;
+            _context = context; 
+            ViewData["IsAdmin"] = IsAdmin();
         }
 
         // GET: Doctors
@@ -76,6 +78,11 @@ namespace BarSi.Controllers
         // GET: Doctors/Create
         public IActionResult Create()
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewData["Hospitals"] = new SelectList(_context.Hospital, "Id", "Name");
             ViewData["Cities"] = new SelectList(_context.City, "Id", "Name");
             return View();
@@ -101,6 +108,11 @@ namespace BarSi.Controllers
         // GET: Doctors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -157,6 +169,11 @@ namespace BarSi.Controllers
         // GET: Doctors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -219,6 +236,12 @@ namespace BarSi.Controllers
         {
             doctor.Hospital = _context.Hospital.First(h => h.Id == hospital);
             doctor.City = _context.City.First(c => c.Id == city);
+        }
+
+        private bool IsAdmin()
+        {
+            return (HttpContext != null) && (HttpContext.Session != null) &&
+                                 (HttpContext.Session.GetString("IsAdmin") == "true");
         }
     }
 }

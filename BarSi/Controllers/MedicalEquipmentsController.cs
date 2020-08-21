@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BarSi.Data;
 using BarSi.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BarSi.Controllers
 {
@@ -17,6 +18,7 @@ namespace BarSi.Controllers
         public MedicalEquipmentsController(BarSiContext context)
         {
             _context = context;
+            ViewData["IsAdmin"] = IsAdmin();
         }
 
         // GET: MedicalEquipments
@@ -46,6 +48,11 @@ namespace BarSi.Controllers
         // GET: MedicalEquipments/Create
         public IActionResult Create()
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
@@ -68,6 +75,11 @@ namespace BarSi.Controllers
         // GET: MedicalEquipments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -119,6 +131,11 @@ namespace BarSi.Controllers
         // GET: MedicalEquipments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -148,6 +165,12 @@ namespace BarSi.Controllers
         private bool MedicalEquipmentExists(int id)
         {
             return _context.MedicalEquipment.Any(e => e.Id == id);
+        }
+
+        private bool IsAdmin()
+        {
+            return (HttpContext != null) && (HttpContext.Session != null) &&
+                                 (HttpContext.Session.GetString("IsAdmin") == "true");
         }
     }
 }
