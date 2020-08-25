@@ -1,18 +1,22 @@
-﻿//var equipmentAvailableSupply = [][];
+﻿$(function () {
+    // Getting the current URL
+    var url = window.location.href.toString();
+    var originalUrl = url.split("?")[0];
 
-$(function () {
+    // Checking if an order was just made
+    if (url.includes("?")) {
+        var currHospitalId = originalUrl.substring(originalUrl.lastIndexOf('/') + 1);
+
+        // Attempt to suggest an order based on the current situation
+        suggestOrder(currHospitalId, originalUrl);
+    }
+
+    // Initializing the supply Modal
     initSupplyModal();
-
-    //$('#SupplyEquipment').on('change', function () {
-
-    //    var selected = $("#SupplyEquipment :selected")
-    //    alert(selected.val() + "=" + selected.text())
-    //    $('#SupplyQuantity').attr('max', '5')
-    //});
 });
 
 initSupplyModal = function () {
-
+    // Add validation to the modal
     (function () {
         'use strict';
         window.addEventListener('load', function () {
@@ -21,6 +25,8 @@ initSupplyModal = function () {
 
             // Prevent submission
             var validation = Array.prototype.filter.call(form, function (f) {
+                f.classList.remove('was-validated');
+
                 f.addEventListener('submit', function (event) {
                     if (f.checkValidity() === false) {
                         event.preventDefault();
@@ -36,59 +42,21 @@ initSupplyModal = function () {
         }, false);
     })();
 
-    //$("#SupplyModal").on("submit", "#OrderForm", function (e) {
-    //    e.preventDefault();
-
-    //    if (e.checkValidity()) {
-    //        orderSupply(e);
-    //    }
-    //});
-
+    // Display the current quantity of the selected equipment (and set max value)
     $('#SupplyEquipment').on('change', function () {
         var selected = $("#SupplyEquipment :selected")
-        //alert(selected.val() + "=" + selected.text())
 
-        //var equipmentId = $(this).data('EquipmentId');
         $.ajax({
             url: "/Hospitals/AvailableSupply/" + selected.val(),
             cache: false
         }).done(function (data) {
-            $("#SupplyAvailable").text("There are currently " + data + " available");
+            $("#SupplyAvailable").text("There are currently " + (data != 0 ? data : "none") + " available");
             $("#SupplyQuantity").attr('max', data.toString());
         });
-
-        //$('#OrderForm').validate({
-        //    rules: {
-        //        EquipmentId: { required: true },
-        //        Quantity: { required: true, min: random },
-        //    },
-        //    messages: {
-        //        Quantity: "Hi"
-        //    },
-        //    submitHandler: function (form) {
-        //        orderSupply($(form));
-        //    }
-        //});
     });
 };
 
 orderSupply = function (form) {
-
-    //$(".btn.mylink").on("click", function () {
-    //    var articleId = $(this).data('id');
-    //    $.ajax({
-    //        url: "/article/get/" + articleId,
-    //        cache: false
-    //    }).done(function (data) {
-    //        $("#Title").val(data.Title);
-    //        $("#Summary").val(data.Summary);
-    //        $("#Magazine").val(data.Magazine);
-    //        $("#Url").val(data.Url);
-    //        $("#PubMonth").val(data.Year.toString() + "-" +
-    //            ("00" + data.Month.toString()).slice(-2));
-    //    });
-    //});
-
     var url = "/Hospitals/Order";
     var postData = form.serialize();
 
@@ -96,20 +64,60 @@ orderSupply = function (form) {
         url: url,
         method: "POST",
         data: postData,
+        async: false,
         success: function (data) {
-            console.log("Success: " + data);
-            alert("Success: " + data);
-            document.location.href = '/Hospitals/Details/' + data;
+            console.log("Success: " + data.hospitalId);
         },
         error: function (data) {
-            console.log("Error: " + data);
-            alert("Error: " + data);
+            console.log("Error: " + (data.hospitalId).toString());
+           alert("Error: " + data);
         }
     }).done(function (data) {
-        console.log("DONE");
-        alert("DONE");
+        console.log("DONE " + data.hospitalId);
+        //alert("DONE");
+    });
+};
+
+suggestOrder = function (currHospitalId, url) {
+    // Ask the users if they want to keep "shopping"
+    $.ajax({
+        url: "/Hospitals/SuggestOrder/" + currHospitalId,
+        cache: false,
+        success: function (data) {
+            initSuggestionModal(data, url);
+            //alert("success: " + data.equipmentName);       
+        },
+        error: function (data) {
+            console.log("error: " + data);
+            navigateToUrl(url);
+        }
+    });
+}
+
+initSuggestionModal = function (data, url) {
+    // Initialize the order suggestion modal
+    var suggestionModal = $("#SuggestionModal");
+    $("#SuggestEquipment").text("Would you like to proceed and order some " + data.equipmentName + " supplies?");
+    $("#CurrSuggestionState").text("You currently have " + data.currentQuantity + " and there's " + data.availableSupply + " available!");
+    suggestionModal.modal("show");
+
+    // When clicking "Yes" open an order modal with the relevant equipment selected
+    $("#OrderSuggested").on("click", function () {
+        suggestionModal.modal("hide");
+
+        var equipmentSelect = $('#SupplyEquipment');
+        equipmentSelect.val(data.equipmentId);
+        equipmentSelect.change()
+
+        $("#SupplyModal").modal("show");
     });
 
-    //alert("End");
+    // When clicking "No" go back to the details page
+    $("#SuggesttionDeclined").on("click", function () {
+        navigateToUrl(url);
+    });
+}
 
-};
+navigateToUrl = function (url) {
+    document.location.href = url;
+}

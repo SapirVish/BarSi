@@ -16,6 +16,8 @@ namespace BarSi.Controllers
     public class HospitalsController : Controller
     {
         private readonly BarSiContext _context;
+        private static List<int> _recentlyOrdered = new List<int>();
+
 
         public HospitalsController(BarSiContext context)
         {
@@ -26,6 +28,7 @@ namespace BarSi.Controllers
         // GET: Hospitals
         public async Task<IActionResult> Index()
         {
+            _recentlyOrdered.Clear();
             return View(await _context.Hospital.Include(h => h.City).Include(h => h.Location).ToListAsync());
         }
 
@@ -91,8 +94,7 @@ namespace BarSi.Controllers
             }
             return View(hospital);
         }
-
-
+        
         [HttpPost]
         public async Task<IActionResult> Order(int HospitalId, int EquipmentId, int Quantity)
         {
@@ -116,11 +118,13 @@ namespace BarSi.Controllers
 
             await _context.SaveChangesAsync();
 
-            //Object obj = new object[] { HospitalId, Quantity };
+            _recentlyOrdered.Add(EquipmentId);
+
             var ab = new { HospitalId = HospitalId };
             return Json(ab);
         }
 
+        // @param id - the equipment-to-check-supply's id
         public JsonResult AvailableSupply(int? id)
         {
             var totalSupplyQuantity = _context.MedicalEquipment
@@ -143,7 +147,50 @@ namespace BarSi.Controllers
                 available -= result.FirstOrDefault().TotalSupplied;
             }
 
-            return Json(available);
+             return Json(available);
+        }
+
+        public JsonResult SuggestOrder(int? id)
+        {
+            // From all equipments, select equipment that wasn't recently ordered and that there's avaialable supply and we have the least of
+            
+            // Getting all equipments that weren't ordered recently in order of the quantity the given hospital currently have
+            var relevantEquipment = _context.MedicalEquipment
+                .Where(e => !_recentlyOrdered.Contains(e.Id))
+                .Include(e => e.medicalEquipmentSupplies)
+                .OrderBy(e => e.medicalEquipmentSupplies.Where(mes => mes.HospitalId == id).FirstOrDefault().SupplyQuantity)
+                .ToList();
+
+            MedicalEquipment suggestedOrder = null;
+            int available = 0;
+
+            // Getting an equipment with available supply
+            foreach (var equipment in relevantEquipment)
+            {
+                available = (int) AvailableSupply(equipment.Id).Value;
+              
+                if (available > 0)
+                {
+                    suggestedOrder = equipment;
+
+                    break;
+                }
+            };
+
+            if (suggestedOrder == null || available == 0)
+            {
+               return null;
+            }
+             
+            var suggestion = new
+            { 
+                EquipmentId = suggestedOrder.Id,
+                EquipmentName = suggestedOrder.Name,
+                CurrentQuantity = suggestedOrder.medicalEquipmentSupplies.Where(mes => mes.HospitalId == id).FirstOrDefault().SupplyQuantity,
+                AvailableSupply = available
+            };
+
+            return Json(suggestion);
         }
     
 

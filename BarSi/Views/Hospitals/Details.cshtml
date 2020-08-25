@@ -95,13 +95,38 @@
                                     <p id="SupplyAvailable"></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Order</button>
+                                    <button id="SubmitForm" type="submit" class="btn btn-primary">Order</button>
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Hide</button>
                                 </div>
                             </div>
                         </form>
                     </div>
 
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div id="SuggestionModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Order Suggestion</h4>
+                                <button class="close" data-dismiss="modal">
+                                    x
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p id="SuggestEquipment" />
+                                <p id="CurrSuggestionState"/>
+                            </div>
+                            <p id="SupplyAvailable"></p>
+                            <div class="modal-footer">
+                                <button id="OrderSuggested" type="submit" class="btn btn-primary">Yes</button>
+                                <button id="SuggesttionDeclined" type="button" class="btn btn-primary">No</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
