@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BarSi.Data;
 using BarSi.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BarSi.Controllers
 {
@@ -17,6 +18,7 @@ namespace BarSi.Controllers
         public MedicalEquipmentSuppliesController(BarSiContext context)
         {
             _context = context;
+            ViewData["IsAdmin"] = IsAdmin();
         }
 
         // GET: MedicalEquipmentSupplies
@@ -49,6 +51,11 @@ namespace BarSi.Controllers
         // GET: MedicalEquipmentSupplies/Create
         public IActionResult Create()
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewData["HospitalId"] = new SelectList(_context.Hospital, "Id", "Name");
             ViewData["MedicalEquipmentId"] = new SelectList(_context.MedicalEquipment, "Id", "Name");
             return View();
@@ -75,6 +82,11 @@ namespace BarSi.Controllers
         // GET: MedicalEquipmentSupplies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -130,6 +142,11 @@ namespace BarSi.Controllers
         // GET: MedicalEquipmentSupplies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -161,6 +178,12 @@ namespace BarSi.Controllers
         private bool MedicalEquipmentSupplyExists(int id)
         {
             return _context.MedicalEquipmentSupply.Any(e => e.HospitalId == id);
+        }
+
+        private bool IsAdmin()
+        {
+            return (HttpContext != null) && (HttpContext.Session != null) &&
+                                 (HttpContext.Session.GetString("IsAdmin") == "true");
         }
     }
 }
