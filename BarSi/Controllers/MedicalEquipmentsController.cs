@@ -36,11 +36,16 @@ namespace BarSi.Controllers
             }
 
             var medicalEquipment = await _context.MedicalEquipment
+                .Include(m => m.medicalEquipmentSupplies/*.Where(s => s.MedicalEquipmentId == m.Id)*/)
+                .ThenInclude(item => item.Hospital)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (medicalEquipment == null)
             {
                 return NotFound();
             }
+
+            //ViewBag.Supplies = new SelectList(_context.MedicalEquipmentSupply.ToList(), "HospitalId", "Name", "SupplyQuantity");
 
             return View(medicalEquipment);
         }
@@ -61,7 +66,7 @@ namespace BarSi.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price")] MedicalEquipment medicalEquipment)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Quantity")] MedicalEquipment medicalEquipment)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +103,7 @@ namespace BarSi.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price")] MedicalEquipment medicalEquipment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Quantity")] MedicalEquipment medicalEquipment)
         {
             if (id != medicalEquipment.Id)
             {

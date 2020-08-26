@@ -27,7 +27,7 @@ namespace BarSi.Controllers
         {
             return View(await _context.Patient.Include(p => p.City).Include(p => p.Doctor)
                 .Include(p => p.Status).Include(p => p.Hospital).ToListAsync());
-        }
+        }   
 
         [HttpPost]
         public async Task<IActionResult> Search(string name, DateTime birthdate, string hospital,

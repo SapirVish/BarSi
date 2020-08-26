@@ -41,6 +41,8 @@ namespace BarSi.Data
 
         public DbSet<BarSi.Models.MedicalEquipment> MedicalEquipment { get; set; }
 
+        public DbSet<BarSi.Models.MedicalEquipmentSupply> MedicalEquipmentSupply { get; set; }
+
         public DbSet<BarSi.Models.Location> Location { get; set; }
 
         public DbSet<BarSi.Models.User> User { get; set; }

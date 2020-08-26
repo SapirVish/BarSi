@@ -4,24 +4,54 @@
     ViewData["Title"] = "Details About Medical Equipment";
 }
 
-    <h1>Details About Medical Equipment</h1>
+    <h1>  @Html.DisplayFor(model => model.Name) </h1>
 
 <div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Price)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Price)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
     </dl>
+    @if (Model.medicalEquipmentSupplies != null)
+        { 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.medicalEquipmentSupplies.First().Hospital)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.medicalEquipmentSupplies.First().SupplyQuantity)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.medicalEquipmentSupplies.ToList())
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hospital.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SupplyQuantity)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
 </div>
 <div>
     <a hidden="!(@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
