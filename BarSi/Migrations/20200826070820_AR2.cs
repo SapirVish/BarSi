@@ -2,7 +2,7 @@
 
 namespace BarSi.Migrations
 {
-    public partial class Init6 : Migration
+    public partial class AR2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarSi.Migrations
 {
     [DbContext(typeof(BarSiContext))]
-    [Migration("20200816202456_insert-user-data")]
-    partial class insertuserdata
+    [Migration("20200826070820_AR2")]
+    partial class AR2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,6 +83,7 @@ namespace BarSi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
@@ -121,9 +122,14 @@ namespace BarSi.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -137,6 +143,9 @@ namespace BarSi.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("MedicalEquipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SupplyQuantity")
                         .HasColumnType("int");
 
                     b.HasKey("HospitalId", "MedicalEquipmentId");
