@@ -43,3 +43,12 @@
 body {
     font-family: roboto;
 }
+
+.loginButton {
+    margin-right: -6% !important;
+}
+
+.form-title {
+    width: 100%;
+    margin-left: 44%
+}

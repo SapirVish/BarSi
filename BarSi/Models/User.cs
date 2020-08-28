@@ -11,8 +11,10 @@ namespace BarSi.Models
         public int Id { get; set; }
 
         [Display(Name = "User Name")]
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Password { get; set; }
     }
 }
