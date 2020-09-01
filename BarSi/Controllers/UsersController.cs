@@ -35,8 +35,10 @@ namespace BarSi.Controllers
 
         private bool IsAdmin()
         {
-            return (HttpContext != null) && (HttpContext.Session != null) &&
+            bool isAdmin = (HttpContext != null) && (HttpContext.Session != null) &&
                                  (HttpContext.Session.GetString("IsAdmin") == "true");
+            ViewData["IsAdmin"] = isAdmin;
+            return isAdmin;
         }
     }
 }

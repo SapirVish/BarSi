@@ -11,9 +11,14 @@
     <div class="title-component">
         <h1>
             All Patients
-            <a hidden="!(@ViewBag.IsAdmin)" asp-action="Create">
+            @ViewBag.IsAdmin
+            @ViewData["IsAdmin"]
+            @if (@ViewBag.IsAdmin)
+            {
+            <a asp-action="Create">
                 <button asp-action="Create" type="button" class="btn btn-primary add-new" data-toggle="tooltip" data-placement="top" title="add patient"><i class="fa fa-plus"></i>Add Patient</button>
             </a>
+            }
         </h1>
         <div class="filter-patients">
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#filterPatientsComponent" aria-expanded="false" aria-controls="filterPatientsComponent" id="filterButton" onclick="filterArrawToggle(this)">
@@ -116,10 +121,12 @@
                 @Html.DisplayFor(modelItem => item.Doctor.LastName)
             </td>
             <td>
-                <a hidden="!(@ViewBag.IsAdmin)" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-                <a asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top"  title="Details"><i class="fa fa-info-circle"></i></a>
-                <a hidden="!(@ViewBag.IsAdmin)" asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-            </td>
+                @if (@ViewBag.IsAdmin)
+                {<a asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>}
+                <a asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle"></i></a>
+                @if (@ViewBag.IsAdmin)
+                {<a asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>}
+                </td>
         </tr>
 }
     </tbody>

@@ -54,6 +54,7 @@
     }
 </div>
 <div>
-    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    @if (@ViewBag.IsAdmin)
+    { <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> <span>|</span>}
     <a asp-action="Index">Back to List</a>
 </div>

@@ -18,18 +18,19 @@ namespace BarSi.Controllers
         public MedicalEquipmentsController(BarSiContext context)
         {
             _context = context;
-            ViewData["IsAdmin"] = IsAdmin();
         }
 
         // GET: MedicalEquipments
         public async Task<IActionResult> Index()
         {
+            ViewData["IsAdmin"] = IsAdmin();
             return View(await _context.MedicalEquipment.ToListAsync());
         }
 
         // GET: MedicalEquipments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            IsAdmin();
             if (id == null)
             {
                 return NotFound();
@@ -174,8 +175,10 @@ namespace BarSi.Controllers
 
         private bool IsAdmin()
         {
-            return (HttpContext != null) && (HttpContext.Session != null) &&
+            bool isAdmin = (HttpContext != null) && (HttpContext.Session != null) &&
                                  (HttpContext.Session.GetString("IsAdmin") == "true");
+            ViewData["IsAdmin"] = isAdmin;
+            return isAdmin;
         }
     }
 }

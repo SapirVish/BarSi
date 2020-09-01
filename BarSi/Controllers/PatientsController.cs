@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Web;
 using BarSi.Data;
 using BarSi.Models;
 
@@ -18,13 +19,12 @@ namespace BarSi.Controllers
         public PatientsController(BarSiContext context)
         {
             _context = context;
-            ViewData["IsAdmin"] = (HttpContext != null) && (HttpContext.Session != null) && 
-                                (HttpContext.Session.GetString("IsAdmin") == "true");
         }
 
         // GET: Patients
         public async Task<IActionResult> Index()
         {
+            ViewData["IsAdmin"] = IsAdmin();
             return View(await _context.Patient.Include(p => p.City).Include(p => p.Doctor)
                 .Include(p => p.Status).Include(p => p.Hospital).ToListAsync());
         }   
@@ -70,6 +70,7 @@ namespace BarSi.Controllers
         // GET: Patients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            IsAdmin();
             if (id == null)
             {
                 return NotFound();
@@ -238,8 +239,10 @@ namespace BarSi.Controllers
 
         private bool IsAdmin()
         {
-            return (HttpContext != null) && (HttpContext.Session != null) &&
+            bool isAdmin = (HttpContext != null) && (HttpContext.Session != null) &&
                                  (HttpContext.Session.GetString("IsAdmin") == "true");
+            ViewData["IsAdmin"] = isAdmin;
+            return isAdmin;
         }
     }
 }
