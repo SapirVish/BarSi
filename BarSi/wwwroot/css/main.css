@@ -13,7 +13,7 @@
 }
 
 #main-nav {
-    background-color: #005D65 !important;
+    background-image: linear-gradient(to right, #80d0c7, #13547a) !important;
 }
 
 .nav-icon {
@@ -42,4 +42,5 @@
 
 body {
     font-family: roboto;
+    background-color: #f5f6fa;
 }
