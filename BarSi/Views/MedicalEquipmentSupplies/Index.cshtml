@@ -7,7 +7,8 @@
 <h1>All Medical Equipment Supplies</h1>
 
 <p>
-    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Create">Add New Medical Equipment Supply</a>
+    @if (@ViewBag.IsAdmin)
+    { <a asp-action="Create">Add New Medical Equipment Supply</a> }
 </p>
 <table class="table">
     <thead>
@@ -41,9 +42,9 @@
                     @Html.ActionLink("Edit", "Edit", new {  hidden="!(@ViewBag.IsAdmin)" }) |
                     @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                     @Html.ActionLink("Delete", "Delete", new { hidden = "!(@ViewBag.IsAdmin)" })
-                    @*<a hidden="!(@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@item.MedicalEquipmentId">Edit</a> |
+                    @*@if (@ViewBag.IsAdmin) { <a hidden="!(@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@item.MedicalEquipmentId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.MedicalEquipmentId">Details</a> |
-                    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Delete" asp-route-id="@item.MedicalEquipmentId">Delete</a>*@
+                    @if (@ViewBag.IsAdmin) { <a hidden="!(@ViewBag.IsAdmin)" asp-action="Delete" asp-route-id="@item.MedicalEquipmentId">Delete</a>*@
                 </td>
             </tr>
         }

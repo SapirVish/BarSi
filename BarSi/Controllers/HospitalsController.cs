@@ -22,12 +22,12 @@ namespace BarSi.Controllers
         public HospitalsController(BarSiContext context)
         {
             _context = context;
-            ViewData["IsAdmin"] = IsAdmin();
         }
 
         // GET: Hospitals
         public async Task<IActionResult> Index()
         {
+            ViewData["IsAdmin"] = IsAdmin();
             _recentlyOrdered.Clear();
             return View(await _context.Hospital.Include(h => h.City).Include(h => h.Location).ToListAsync());
         }
@@ -35,6 +35,7 @@ namespace BarSi.Controllers
         // GET: Hospitals/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            IsAdmin();
             if (id == null)
             {
                 return NotFound();
@@ -313,8 +314,10 @@ namespace BarSi.Controllers
 
         private bool IsAdmin()
         {
-            return (HttpContext != null) && (HttpContext.Session != null) &&
+            bool isAdmin = (HttpContext != null) && (HttpContext.Session != null) &&
                                  (HttpContext.Session.GetString("IsAdmin") == "true");
+            ViewData["IsAdmin"] = isAdmin;
+            return isAdmin;
         }
     }
 }

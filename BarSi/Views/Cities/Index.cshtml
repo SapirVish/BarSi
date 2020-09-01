@@ -7,7 +7,11 @@
 <h1>Index</h1>
 
 <p>
-    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Create">Create New</a>
+
+    @if (@ViewBag.IsAdmin)
+    {
+        <a asp-action="Create">Create New</a>
+    }
 </p>
 <table class="table">
     <thead>
@@ -25,9 +29,11 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a hidden="!(@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+
+                @if (@ViewBag.IsAdmin) {<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span>|</span> }
                 <a hidden="!(@ViewBag.IsAdmin)" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a hidden="!(@ViewBag.IsAdmin)" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @if (@ViewBag.IsAdmin)
+                {<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>}
             </td>
         </tr>
 }

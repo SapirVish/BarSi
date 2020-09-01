@@ -11,9 +11,11 @@
 <div class="title-component">
     <h1>
         All Doctors
-        <a hidden="!(@ViewBag.IsAdmin)" asp-action="Create">
-            <button asp-action="Create" type="button" class="btn btn-outline-info add-new" data-toggle="tooltip" data-placement="top" title="add doctor"><i class="fa fa-plus"></i>Add Doctor</button>
-        </a>
+        @if (@ViewBag.IsAdmin) {
+            <a asp-action="Create">
+                <button asp-action="Create" type="button" class="btn btn-outline-info add-new" data-toggle="tooltip" data-placement="top" title="add doctor"><i class="fa fa-plus"></i>Add Doctor</button>
+            </a>
+        }
     </h1>
     <div class="filter-doctors">
         <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#filterDoctorsComponent" aria-expanded="false" aria-controls="filterDoctorsComponent" id="filterButton" onclick="filterArrawToggle(this)">
@@ -95,9 +97,11 @@
                     @Html.DisplayFor(modelItem => item.City.Name)
                 </td>
                 <td>
-                    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>
+                    @if (@ViewBag.IsAdmin)
+                    { <a asp-action="Edit" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>}
                     <a asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
-                    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>
+                    @if (@ViewBag.IsAdmin)
+                    { <a asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>}
                 </td>
             </tr>
         }

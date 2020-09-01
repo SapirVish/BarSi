@@ -10,9 +10,13 @@
 
     <h1>All Medical Equipment</h1>
 
-<p>
-    <a hidden="!(@ViewBag.IsAdmin)" asp-action="Create">Add New Medical Equipment</a>
-</p>
+    <p>
+        <span>|</span>
+        @if (@ViewBag.IsAdmin)
+        {
+            <a asp-action="Create">Add New Medical Equipment</a>
+        }
+    </p>
 <table class="table table-striped table-bordered table-hover" id="equipment-table">
     <thead class="thead-light">
         <tr>
@@ -41,10 +45,12 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </th>
             <td>
-                <a hidden="!@ViewBag.IsAdmin)" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                @if (@ViewBag.IsAdmin)
+                {<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span>|</span>}
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a hidden="!(@ViewBag.IsAdmin)" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                @if (@ViewBag.IsAdmin)
+                {<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>}
+                </td>
         </tr>
 }
     </tbody>
