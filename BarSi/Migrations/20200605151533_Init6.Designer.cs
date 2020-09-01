@@ -13,7 +13,7 @@ namespace BarSi.Migrations
     [Migration("20200605151533_Init6")]
     partial class Init6
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected virtual void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

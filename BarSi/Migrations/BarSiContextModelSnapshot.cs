@@ -77,7 +77,11 @@ namespace BarSi.Migrations
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
@@ -85,7 +89,27 @@ namespace BarSi.Migrations
 
                     b.HasIndex("CityId");
 
+                    b.HasIndex("LocationId");
+
                     b.ToTable("Hospital");
+                });
+
+            modelBuilder.Entity("BarSi.Models.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Lat")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Lng")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("BarSi.Models.MedicalEquipment", b =>
@@ -96,9 +120,14 @@ namespace BarSi.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -112,6 +141,9 @@ namespace BarSi.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("MedicalEquipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SupplyQuantity")
                         .HasColumnType("int");
 
                     b.HasKey("HospitalId", "MedicalEquipmentId");
@@ -182,6 +214,26 @@ namespace BarSi.Migrations
                     b.ToTable("PatientStatus");
                 });
 
+            modelBuilder.Entity("BarSi.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
             modelBuilder.Entity("BarSi.Models.Doctor", b =>
                 {
                     b.HasOne("BarSi.Models.City", "City")
@@ -198,6 +250,10 @@ namespace BarSi.Migrations
                     b.HasOne("BarSi.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
+
+                    b.HasOne("BarSi.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("BarSi.Models.MedicalEquipmentSupply", b =>

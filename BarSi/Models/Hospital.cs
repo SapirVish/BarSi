@@ -13,6 +13,7 @@ namespace BarSi.Models
 
         [StringLength(50)]
         [RegularExpression(@"^[A-Za-z\s]*$")]
+        [Required]
         [Display(Name="Hospital Name")]
         public string Name { get; set; }
 
@@ -23,5 +24,7 @@ namespace BarSi.Models
         public IEnumerable<Doctor> Doctors { get; set; }
 
         public IEnumerable<MedicalEquipmentSupply> medicalEquipmentSupplies { get; set; }
+
+        public Location Location { get; set; }
     }
 }

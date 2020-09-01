@@ -1,0 +1,32 @@
+﻿#hospial-table {
+    width: 45%;
+    margin-bottom: 1rem;
+    color: #212529;
+    float: left;
+}
+
+#hospial-creation {
+    width: 45%;
+    float: left;
+}
+
+#form-creation {
+    width: 50%;
+}
+
+#create-button {
+    margin-top: 5%;
+}
+
+.mapouter {
+    width: 52%;
+    height: 85vh;
+    position: relative;
+    float: right;
+    margin-bottom: 7%;
+}
+
+#map-frame {
+    position:relative;
+    top:-50px; 
+}

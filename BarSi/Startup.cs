@@ -29,11 +29,19 @@ namespace BarSi
 
             services.AddDbContext<BarSiContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BarSiContext")));
+
+            services.AddMvc();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSession();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -48,6 +56,7 @@ namespace BarSi
             app.UseStaticFiles();
 
             app.UseRouting();
+
 
             app.UseAuthorization();
 

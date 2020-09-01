@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BarSi.Data;
 using BarSi.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BarSi.Controllers
 {
@@ -16,12 +17,13 @@ namespace BarSi.Controllers
 
         public DoctorsController(BarSiContext context)
         {
-            _context = context;
+            _context = context; 
         }
 
         // GET: Doctors
         public async Task<IActionResult> Index()
         {
+            ViewData["IsAdmin"] = IsAdmin();
             return View(await _context.Doctor.Include(d => d.City).Include(d => d.Hospital).ToListAsync());
         }
 
@@ -58,6 +60,7 @@ namespace BarSi.Controllers
         // GET: Doctors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            IsAdmin();
             if (id == null)
             {
                 return NotFound();
@@ -76,6 +79,11 @@ namespace BarSi.Controllers
         // GET: Doctors/Create
         public IActionResult Create()
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewData["Hospitals"] = new SelectList(_context.Hospital, "Id", "Name");
             ViewData["Cities"] = new SelectList(_context.City, "Id", "Name");
             return View();
@@ -101,6 +109,11 @@ namespace BarSi.Controllers
         // GET: Doctors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -157,6 +170,11 @@ namespace BarSi.Controllers
         // GET: Doctors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -219,6 +237,14 @@ namespace BarSi.Controllers
         {
             doctor.Hospital = _context.Hospital.First(h => h.Id == hospital);
             doctor.City = _context.City.First(c => c.Id == city);
+        }
+
+        private bool IsAdmin()
+        {
+            bool isAdmin = (HttpContext != null) && (HttpContext.Session != null) &&
+                                 (HttpContext.Session.GetString("IsAdmin") == "true");
+            ViewData["IsAdmin"] = isAdmin;
+            return isAdmin;
         }
     }
 }

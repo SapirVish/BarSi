@@ -1,35 +1,86 @@
 ﻿@model BarSi.Models.Hospital
 
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="~/css/Hospitals.css">
+}
+
 @{
     ViewData["Title"] = "Add Hospital";
 }
 
-    <h1>Add Hospital</h1>
-
+<h1>Add Hospital</h1>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="City" class="control-label">City</label>
-                <select name="City" class="form-control" asp-items="ViewBag.Cities"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+
+<div id=hospial-creation>
+    <div class="row">
+        <form id="form-creation" asp-action="Create">
+           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           <div class="form-group">
+               <label asp-for="Name" class="control-label"></label>
+               <input asp-for="Name" class="form-control" />
+               <span asp-validation-for="Name" class="text-danger"></span>
+           </div>
+           <div class="form-group">
+               <label for="City" class="control-label">City</label>
+               <select name="City" class="form-control" asp-items="ViewBag.Cities"></select>
+           </div>
+           <div class="form-group">
+               <input type="submit" value="Create" class="btn btn-primary" id="create-button" />
+           </div>
         </form>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<div id='map' class="mapouter"></div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type='text/javascript'>
+    function loadEmptyMap() {
+        var map = new Microsoft.Maps.Map(document.getElementById('map'), {});
+        var layer = new Microsoft.Maps.Layer();
+
+        map.layers.insert(layer);
+        map.setView({
+            center: new Microsoft.Maps.Location(31.728371, 35.040161),
+            zoom: 7
+        });
+
+        Microsoft.Maps.Events.addHandler(map, 'click', function (e) {
+            var pushpin = new Microsoft.Maps.Pushpin(
+                new Microsoft.Maps.Location(e.location.latitude, e.location.longitude), {
+            });
+
+            this.addHospitalLocationToForm(e.location);
+           
+            if (layer){
+                layer.clear();
+            }
+            layer.add(pushpin);     
+        });
+    }
+    function addHospitalLocationToForm(location) {
+        $("#form-creation").submit(function( event ) {
+            event.preventDefault();
+            url = $(this).attr("action");
+            var postData = $(this).serializeArray();
+            postData.push({
+                name: 'Latitude', 
+                value: JSON.stringify(location.latitude)
+            });
+            postData.push({
+                name: 'Longitude', 
+                value: JSON.stringify(location.longitude)
+            });
+            $.post(url, postData, function(){});
+        })
+    }
+
+</script>
+<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AvIU-bI7fquY8nNWndVVTeVfkCtQWK3JMv-sHl-kIsy4Nb2CCPPc_J9NETdmtdwg&callback=loadEmptyMap' async defer></script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

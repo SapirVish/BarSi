@@ -26,12 +26,8 @@
     vertical-align: middle;
 }
 
-#patients-by-hospital-graph {
-    height: 55vh;
-}
-
-#patients-by-doctor-graph {
-    height: 55vh;
+#patients-by-hospital-graph ,#patients-by-doctor-graph {
+    height: 60vh;
 }
 
 svg g {
@@ -48,4 +44,8 @@ svg g {
     padding: 0px 5px;
     column-count: 2;
     column-gap: 20px;
+}
+
+#graphs {
+    overflow-x:scroll;
 }

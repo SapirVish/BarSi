@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Web;
 using BarSi.Data;
 using BarSi.Models;
 
@@ -22,9 +24,10 @@ namespace BarSi.Controllers
         // GET: Patients
         public async Task<IActionResult> Index()
         {
+            ViewData["IsAdmin"] = IsAdmin();
             return View(await _context.Patient.Include(p => p.City).Include(p => p.Doctor)
                 .Include(p => p.Status).Include(p => p.Hospital).ToListAsync());
-        }
+        }   
 
         [HttpPost]
         public async Task<IActionResult> Search(string name, DateTime birthdate, string hospital,
@@ -67,6 +70,7 @@ namespace BarSi.Controllers
         // GET: Patients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            IsAdmin();
             if (id == null)
             {
                 return NotFound();
@@ -86,6 +90,11 @@ namespace BarSi.Controllers
         // GET: Patients/Create
         public IActionResult Create()
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewData["Hospitals"] = new SelectList(_context.Hospital, "Id", "Name");
             ViewData["Doctors"] = from doctor in _context.Doctor
                                   select new SelectListItem { Text = doctor.FirstName + " " + doctor.LastName, Value = doctor.Id.ToString() };
@@ -117,6 +126,11 @@ namespace BarSi.Controllers
         // GET: Patients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -178,6 +192,11 @@ namespace BarSi.Controllers
         // GET: Patients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -216,6 +235,14 @@ namespace BarSi.Controllers
             patient.Doctor = _context.Doctor.First(d => d.Id == doctor);
             patient.City = _context.City.First(c => c.Id == city);
             patient.Status = _context.PatientStatus.First(c => c.Id == status);
+        }
+
+        private bool IsAdmin()
+        {
+            bool isAdmin = (HttpContext != null) && (HttpContext.Session != null) &&
+                                 (HttpContext.Session.GetString("IsAdmin") == "true");
+            ViewData["IsAdmin"] = isAdmin;
+            return isAdmin;
         }
     }
 }
