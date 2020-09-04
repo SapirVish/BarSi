@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     $.ajax({
         method: "GET",
         url: "https://api.covid19api.com/summary",
