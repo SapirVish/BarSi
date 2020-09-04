@@ -33,6 +33,12 @@ namespace BarSi.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public async Task<IActionResult> Logout(string username, string password)
+        {
+            HttpContext.Session.SetString("IsAdmin", "false");
+            return RedirectToAction("Index", "Home");
+        }
+
         private bool IsAdmin()
         {
             bool isAdmin = (HttpContext != null) && (HttpContext.Session != null) &&
