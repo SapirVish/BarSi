@@ -182,12 +182,14 @@ namespace BarSi.Controllers
             {
                return null;
             }
-             
+
+            var suggestedMedicalSupply = suggestedOrder.medicalEquipmentSupplies.Where(mes => mes.HospitalId == id).FirstOrDefault();
+
             var suggestion = new
             { 
                 EquipmentId = suggestedOrder.Id,
                 EquipmentName = suggestedOrder.Name,
-                CurrentQuantity = suggestedOrder.medicalEquipmentSupplies.Where(mes => mes.HospitalId == id).FirstOrDefault().SupplyQuantity,
+                CurrentQuantity = suggestedMedicalSupply == null ? 0 : suggestedMedicalSupply.SupplyQuantity,
                 AvailableSupply = available
             };
 

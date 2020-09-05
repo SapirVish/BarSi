@@ -1,4 +1,10 @@
 ﻿$(function () {
+    $('.collapser').on('click', function () {
+        var btnIcon = $(this).find("i");
+        btnIcon.toggleClass("fa-chevron-circle-up");
+        btnIcon.toggleClass("fa-chevron-circle-down");
+    });
+
     // Getting the current URL
     var url = window.location.href.toString();
     var originalUrl = url.split("?")[0];
@@ -98,7 +104,7 @@ initSuggestionModal = function (data, url) {
     // Initialize the order suggestion modal
     var suggestionModal = $("#SuggestionModal");
     $("#SuggestEquipment").text("Would you like to proceed and order some " + data.equipmentName + " supplies?");
-    $("#CurrSuggestionState").text("You currently have " + data.currentQuantity + " and there's " + data.availableSupply + " available!");
+    $("#CurrSuggestionState").text("You currently have " + (data.currentQuantity != 0 ? data.currentQuantity : "none") + " and there's " + data.availableSupply + " available!");
     suggestionModal.modal("show");
 
     // When clicking "Yes" open an order modal with the relevant equipment selected
