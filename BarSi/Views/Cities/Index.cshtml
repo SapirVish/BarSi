@@ -30,10 +30,10 @@
             </td>
             <td>
 
-                @if (@ViewBag.IsAdmin) {<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span>|</span> }
-                <a hidden="!(@ViewBag.IsAdmin)" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                @if (@ViewBag.IsAdmin) {<a asp-action="Edit" asp-route-id="@item.Id" class="fa fa-edit btn btn-outline-info">Edit</a> <span>|</span> }
+                <a hidden="!(@ViewBag.IsAdmin)" asp-action="Details" asp-route-id="@item.Id" class="fa fa-info-circle btn btn-outline-info">Details</a> |
                 @if (@ViewBag.IsAdmin)
-                {<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>}
+                {<a asp-action="Delete" asp-route-id="@item.Id" class="fa fa-trash btn btn-outline-info">Delete</a>}
             </td>
         </tr>
 }

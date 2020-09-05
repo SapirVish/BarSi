@@ -23,10 +23,13 @@
             @Html.DisplayFor(model => model.City.Name)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-outline-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    <div class="row">
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-outline-danger" />
+        </form>
+    </div>
+    <div class="row">
+        <a asp-action="Index" class="btn btn-outline-info">Back to Hospitals</a>
+    </div>
 </div>
