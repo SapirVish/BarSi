@@ -161,9 +161,11 @@
             ${doctorName}
         </td>
         <td>
-            <a href="Patients/Edit/{Id}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>
+            @if (@ViewBag.IsAdmin)
+            {<a href="Patients/Edit/{Id}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>}
             <a href="Patients/Details/{Id}" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
-            <a href="Patients/Delete/{Id}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>
+            @if (@ViewBag.IsAdmin)
+            {<a href="Patients/Delete/{Id}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>}
         </td>
     </tr>
 </script>
