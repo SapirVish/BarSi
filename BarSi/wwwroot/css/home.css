@@ -1,9 +1,12 @@
-﻿.info-section {
+.info-section {
     display: inline-flex;
     justify-content: space-between;
     width: 100%;
 }
 
+.twitter-timeline {
+    height: 100vw !important;
+}
 .collapse.show {
     overflow-x: scroll;
 }

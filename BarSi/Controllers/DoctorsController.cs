@@ -29,11 +29,11 @@ namespace BarSi.Controllers
 
         public async Task<IActionResult> Search(string first_name, string last_name, DateTime birthdate, int city, int hospital)
         {
-            var doctors = _context.Patient.AsQueryable();
+            var doctors = _context.Doctor.AsQueryable();
             if (!String.IsNullOrEmpty(first_name))
-                doctors = doctors.Where(d => d.FirstName.ToLower().Equals(first_name.ToLower()));
+                doctors = doctors.Where(d => d.FirstName.ToLower().Contains(first_name.ToLower()));
             if (!String.IsNullOrEmpty(last_name))
-                doctors = doctors.Where(d => d.LastName.ToLower().Equals(last_name.ToLower()));
+                doctors = doctors.Where(d => d.LastName.ToLower().Contains(last_name.ToLower()));
             if (birthdate != DateTime.MinValue)
                 doctors = doctors.Where(d => d.Birthdate.Equals(birthdate));
             if (hospital != 0)

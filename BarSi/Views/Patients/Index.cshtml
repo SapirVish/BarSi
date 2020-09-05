@@ -14,12 +14,12 @@
             @if (@ViewBag.IsAdmin)
             {
             <a asp-action="Create">
-                <button asp-action="Create" type="button" class="btn btn-primary add-new" data-toggle="tooltip" data-placement="top" title="add patient"><i class="fa fa-plus"></i>Add Patient</button>
+                <button asp-action="Create" type="button" class="btn btn-outline-info add-new" data-toggle="tooltip" data-placement="top" title="add patient"><i class="fa fa-plus"></i>Add Patient</button>
             </a>
             }
         </h1>
         <div class="filter-patients">
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#filterPatientsComponent" aria-expanded="false" aria-controls="filterPatientsComponent" id="filterButton" onclick="filterArrawToggle(this)">
+            <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#filterPatientsComponent" aria-expanded="false" aria-controls="filterPatientsComponent" id="filterButton" onclick="filterArrawToggle(this)">
                 <i class="fa fa-chevron-circle-down" aria-hidden="true" id="filter-cart-icon"></i>
                 filter patients
             </button>
@@ -52,7 +52,7 @@
                 <div class="col col-md-3">
                 </div>
                 <div class="col col-md-3">
-                    <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="search" id="patientSearchButton"><i class="fa fa-search"></i></button>
+                    <button type="button" class="btn btn-outline-info" data-toggle="tooltip" data-placement="top" title="search" id="patientSearchButton"><i class="fa fa-search"></i></button>
                 </div>
             </div>
         </form>
@@ -120,10 +120,10 @@
             </td>
             <td>
                 @if (@ViewBag.IsAdmin)
-                {<a asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>}
-                <a asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle"></i></a>
+                {<a asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>}
+                <a asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
                 @if (@ViewBag.IsAdmin)
-                {<a asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>}
+                {<a asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>}
                 </td>
         </tr>
 }
@@ -161,9 +161,11 @@
             ${doctorName}
         </td>
         <td>
-            <a href="Patients/Edit/{Id}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-            <a href="Patients/Details/{Id}" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle"></i></a>
-            <a href="Patients/Delete/{Id}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+            @if (@ViewBag.IsAdmin)
+            {<a href="Patients/Edit/{Id}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>}
+            <a href="Patients/Details/{Id}" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
+            @if (@ViewBag.IsAdmin)
+            {<a href="Patients/Delete/{Id}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>}
         </td>
     </tr>
 </script>

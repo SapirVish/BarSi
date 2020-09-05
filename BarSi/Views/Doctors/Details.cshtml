@@ -42,6 +42,8 @@
     </dl>
 </div>
 <div>
-    @if (@ViewBag.IsAdmin) { <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> <span>|</span> }
-    <a asp-action="Index">Back to List</a>
+    @if (@ViewBag.IsAdmin) { <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a> }
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-outline-info">Back to Doctors</a>
 </div>
