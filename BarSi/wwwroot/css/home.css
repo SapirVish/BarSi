@@ -4,8 +4,19 @@
     width: 100%;
 }
 
+#statistics-section {
+    justify-content: space-between;
+    width: 100%;
+}
+
+#statistics-graph {
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 46%;
+}
+
 .twitter-timeline {
-    height: 100vw !important;
+    height: 50vw !important;
 }
 .collapse.show {
     overflow-x: scroll;
@@ -47,5 +58,5 @@ svg g {
 }
 
 #graphs {
-    overflow-x:scroll;
+    overflow-x: scroll;
 }

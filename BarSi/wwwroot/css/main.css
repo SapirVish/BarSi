@@ -13,11 +13,21 @@
 }
 
 #main-nav {
-    background-color: #005D65 !important;
+    background-color: #61b7c3 !important;
+}
+
+.container-fluid {
+    background: #eff3f6;
 }
 
 .nav-icon {
     margin-right: 2%;
+}
+
+.card {
+    border: none;
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 3%;
 }
 
 #main-nav .nav-item {
@@ -29,7 +39,7 @@
 }
 
 #main-nav .nav-item:hover, #main-nav .nav-item:focus {
-    background-color: #317C82;
+    background-color: #10a7bd;
 }
 
 #medical-item {
