@@ -120,7 +120,7 @@
             </td>
             <td>
                 @if (@ViewBag.IsAdmin)
-                {<a asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>}
+                {<a asp-action="Edit" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>}
                 <a asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
                 @if (@ViewBag.IsAdmin)
                 {<a asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>}
@@ -162,10 +162,10 @@
         </td>
         <td>
             @if (@ViewBag.IsAdmin)
-            {<a href="Patients/Edit/{Id}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>}
-            <a href="Patients/Details/{Id}" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
+            {<a href="Patients/Edit/${id}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>}
+            <a href="Patients/Details/${id}" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
             @if (@ViewBag.IsAdmin)
-            {<a href="Patients/Delete/{Id}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>}
+            {<a href="Patients/Delete/${id}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>}
         </td>
     </tr>
 </script>
