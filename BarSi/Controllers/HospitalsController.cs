@@ -77,7 +77,7 @@ namespace BarSi.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Hospital hospital, int City, double Latitude, double Longitude)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && Latitude != 0 && Longitude != 0)
             {
                 hospital.City = _context.City.First(c => c.Id == City);
                 Location hospitalLocation = new Location
@@ -88,7 +88,6 @@ namespace BarSi.Controllers
                 hospital.Location = hospitalLocation;
 
                 _context.Location.Add(hospitalLocation);
-                _context.SaveChanges();
                 _context.Add(hospital);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
