@@ -16,7 +16,7 @@
 }
 
 .twitter-timeline {
-    height: 50vw !important;
+    height: 22vw !important;
 }
 .collapse.show {
     overflow-x: scroll;
@@ -50,6 +50,7 @@ svg g {
 #statistics-title {
     padding: 4px;
     text-shadow: 2px 1px grey;
+    margin-left: 1%;
 }
 
 #statistics-content {

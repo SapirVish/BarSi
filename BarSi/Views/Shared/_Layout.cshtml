@@ -12,8 +12,8 @@
 </head>
 <body>
     <header id="header">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3" id="main-nav">
-            <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow" id="main-nav">
+            <div class="container" id="navbar">
                 <a class="navbar-brand" id="home-item" asp-area="" asp-controller="Home" asp-action="Index">BarSi</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -102,7 +102,7 @@
         </nav>
     </header>
 
-    <div class="container-fluid">
+    <div class="container-fluid" id="body-container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

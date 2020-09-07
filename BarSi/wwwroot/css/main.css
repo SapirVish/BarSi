@@ -16,8 +16,9 @@
     background-color: #61b7c3 !important;
 }
 
-.container-fluid {
-    background: #eff3f6;
+#body-container {
+    margin-left: 6px !important;
+    margin-right: 6px !important;
 }
 
 .nav-icon {
@@ -31,11 +32,17 @@
 }
 
 #main-nav .nav-item {
-    width: 11%;
+    width: 5%;
     border-radius: 10px;
     transition-property: color, background-color;
     transition-duration: 0.5s;
     transition-timing-function: ease-out;
+}
+
+#navbar.container {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
 }
 
 #main-nav .nav-item:hover, #main-nav .nav-item:focus {
@@ -45,21 +52,21 @@
 #medical-item {
     width: 18% !important;
 }
- 
+
 #home-item {
-   margin-right: 2%;
+    margin-right: 2%;
 }
 
 body {
     font-family: roboto;
-    background-color: #f5f6fa;
-}
-
-.loginButton {
-    margin-right: -6% !important;
+    background: #eff3f6;
 }
 
 .form-title {
     width: 100%;
     margin-left: 44%
+}
+
+#backBtn {
+    margin-top: 5px;
 }
