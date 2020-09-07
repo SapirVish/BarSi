@@ -134,10 +134,10 @@
             </td>
             <td>
                 @if (@ViewBag.IsAdmin)
-                {<a href="Doctors/Edit/{Id}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>}
-                <a href="Doctors/Details/{Id}" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
+                {<a href="Doctors/Edit/${id}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit btn btn-outline-info"></i></a>}
+                <a href="Doctors/Details/${id}" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-info-circle btn btn-outline-info"></i></a>
                 @if (@ViewBag.IsAdmin)
-                {<a href="Doctors/Delete/{Id}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>}
+                {<a href="Doctors/Delete/${id}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash btn btn-outline-info"></i></a>}
             </td>
         </tr>
     </script>

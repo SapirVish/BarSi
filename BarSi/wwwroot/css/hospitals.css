@@ -30,3 +30,15 @@
     position:relative;
     top:-50px; 
 }
+
+.title-component {
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+    align-items: baseline;
+    margin-bottom: 2%;
+}
+
+.component-header {
+    text-shadow: 0 0 1px black;
+}
