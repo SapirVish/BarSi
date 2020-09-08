@@ -17,6 +17,7 @@ namespace BarSi.Models
 
         [Required]
         [DataType(DataType.Currency)]
+        [RegularExpression(@"^[0-9\s]*$", ErrorMessage = "Please enter positive value")]
         public int Price { get; set; }
 
         [Required]
