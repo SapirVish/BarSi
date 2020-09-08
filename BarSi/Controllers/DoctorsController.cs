@@ -215,17 +215,17 @@ namespace BarSi.Controllers
             var patientsCountByDoctor = from pd in patientsByDoctor
                                           join d in _context.Doctor
                                           on pd.Key equals d.Id
-                                          select new { DoctorId = d.Id, PatientsCount = pd.Count };
+                                          select new { DoctorName = d.FirstName + " " + d.LastName, PatientsCount = pd.Count };
 
-            var patientsForDoctorStatistic = from pd in patientsCountByDoctor
-                                             group pd by pd.PatientsCount into g
-                                             select new
-                                             {
-                                                 PatientsCount = g.Key,
-                                                 DoctorsCount = g.Count()
-                                             }; ;
+            //var patientsForDoctorStatistic = from pd in patientsCountByDoctor
+            //                                 group pd by pd.PatientsCount into g
+            //                                 select new
+            //                                 {
+            //                                     PatientsCount = g.Key,
+            //                                     DoctorsCount = g.Count()
+            //                                 }; ;
 
-            return Json(patientsForDoctorStatistic.ToList());
+            return Json(patientsCountByDoctor.ToList());
         }
 
         private bool DoctorExists(int id)
