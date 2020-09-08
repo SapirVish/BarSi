@@ -96,10 +96,6 @@ function createPatientsByHospitalGraph(data) {
 }
 
 function createPatientsForDoctorStatisticGraph(patientsForDoctorData) {
-    data = {}
-    for (patientsForDoctor of patientsForDoctorData) {
-        data[patientsForDoctor.patientsCount] = patientsForDoctor.doctorsCount;
-    }
 
     var width = 400
     height = 400
@@ -108,7 +104,7 @@ function createPatientsForDoctorStatisticGraph(patientsForDoctorData) {
     // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
     var radius = Math.min(width, height) / 2 - margin
 
-    // append the svg object to the div called 'my_dataviz'
+    // append the svg object to the div called 'patients-by-doctor-graph'
     var svg = d3.select("#patients-by-doctor-graph")
         .attr("width", width)
         .attr("height", height)
@@ -118,14 +114,20 @@ function createPatientsForDoctorStatisticGraph(patientsForDoctorData) {
 
     // set the color scale
     var color = d3.scaleOrdinal()
-        .domain(data)
-        .range(d3.schemeSet2)
+        .domain(patientsForDoctorData)
+        .range(d3.schemeSet2);
 
     // Compute the position of each group on the pie:
     var pie = d3.pie()
-        .value(function (d) { return d.value; })
-    var data_ready = pie(d3.entries(data))
+        .value(function (d) {
+          //  console.log("pie: ");
+          //  console.log(d);
+            return d.value.patientsCount;
+        })
+    var data_ready = pie(d3.entries(patientsForDoctorData))
+    // Now I know that group A goes from 0 degrees to x degrees and so on.
 
+    // shape helper to build arcs:
     var arcGenerator = d3.arc()
         .innerRadius(0)
         .outerRadius(radius)
@@ -137,17 +139,28 @@ function createPatientsForDoctorStatisticGraph(patientsForDoctorData) {
         .enter()
         .append('path')
         .attr('d', arcGenerator)
-        .attr('fill', function (d) { return (color(d.data.key)) })
+        .attr('fill', function (d) {
+           // console.log("color: ");
+           // console.log(d);
+            return (color(d.data.value.doctorName))
+        })
         .attr("stroke", "black")
         .style("stroke-width", "2px")
         .style("opacity", 0.7)
 
+    // Now add the annotation. Use the centroid method to get the best coordinates
     svg
         .selectAll('mySlices')
         .data(data_ready)
         .enter()
         .append('text')
-        .text(function (d) {return d.data.key })
+        .text(function (d) {
+            //console.log("last: ");
+           // console.log( d);
+            return d.data.value.doctorName
+        })
         .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
         .style("text-anchor", "middle")
+        .style("font-size", 17)
+
 }

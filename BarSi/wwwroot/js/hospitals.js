@@ -1,10 +1,4 @@
 ﻿$(function () {
-    $('.collapser').on('click', function () {
-        var btnIcon = $(this).find("i");
-        btnIcon.toggleClass("fa-chevron-circle-up");
-        btnIcon.toggleClass("fa-chevron-circle-down");
-    });
-
     // Getting the current URL
     var url = window.location.href.toString();
     var originalUrl = url.split("?")[0];
@@ -16,6 +10,12 @@
         // Attempt to suggest an order based on the current situation
         suggestOrder(currHospitalId, originalUrl);
     }
+
+    $('.collapser').on('click', function () {
+        var btnIcon = $(this).find("i");
+        btnIcon.toggleClass("fa-chevron-circle-up");
+        btnIcon.toggleClass("fa-chevron-circle-down");
+    });
 
     // Initializing the supply Modal
     initSupplyModal();
