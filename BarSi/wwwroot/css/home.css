@@ -28,6 +28,7 @@
 }
 
 #global-covid19-data {
+    padding-left: 30px;
     height: 70vh;
     overflow-y: scroll;
     font-size:14px
