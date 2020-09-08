@@ -4,8 +4,19 @@
     width: 100%;
 }
 
+#statistics-section {
+    justify-content: space-between;
+    width: 100%;
+}
+
+#statistics-graph {
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 46%;
+}
+
 .twitter-timeline {
-    height: 100vw !important;
+    height: 22vw !important;
 }
 .collapse.show {
     overflow-x: scroll;
@@ -13,6 +24,7 @@
 
 #statistics {
     text-align: center;
+    width: 50%;
 }
 
 #global-covid19-data {
@@ -38,6 +50,7 @@ svg g {
 #statistics-title {
     padding: 4px;
     text-shadow: 2px 1px grey;
+    margin-left: 1%;
 }
 
 #statistics-content {
@@ -47,5 +60,5 @@ svg g {
 }
 
 #graphs {
-    overflow-x:scroll;
+    overflow-x: scroll;
 }

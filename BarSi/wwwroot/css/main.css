@@ -13,43 +13,60 @@
 }
 
 #main-nav {
-    background-color: #005D65 !important;
+    background-color: #61b7c3 !important;
+}
+
+#body-container {
+    margin-left: 6px !important;
+    margin-right: 6px !important;
 }
 
 .nav-icon {
     margin-right: 2%;
 }
 
+.card {
+    border: none;
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 3%;
+}
+
 #main-nav .nav-item {
-    width: 11%;
+    width: 5%;
     border-radius: 10px;
     transition-property: color, background-color;
     transition-duration: 0.5s;
     transition-timing-function: ease-out;
 }
 
+#navbar.container {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+}
+
 #main-nav .nav-item:hover, #main-nav .nav-item:focus {
-    background-color: #317C82;
+    background-color: #10a7bd;
 }
 
 #medical-item {
     width: 18% !important;
 }
- 
+
 #home-item {
-   margin-right: 2%;
+    margin-right: 2%;
 }
 
 body {
     font-family: roboto;
-    background-color: #f5f6fa;
-}
-
-.loginButton {
-    margin-right: -6% !important;
+    background: #eff3f6;
 }
 
 .form-title {
     width: 100%;
     margin-left: 44%
+}
+
+#backBtn {
+    margin-top: 5px;
 }
