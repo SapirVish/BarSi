@@ -51,8 +51,8 @@ function createPatientsByHospitalGraph(data) {
 
     x = d3.scaleBand()
         .domain(data.map(d => d.hospitalName))
-            .rangeRound([margin.left, width - margin.right])
-            .padding(0.1)
+        .rangeRound([margin.left, width - margin.right])
+        .padding(0.1)
 
     y = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.count)]).nice()
@@ -78,7 +78,7 @@ function createPatientsByHospitalGraph(data) {
         .attr("viewBox", [0, 0, width, height]);
 
     svg.append("g")
-        .attr("fill", "steelblue")
+        .attr("fill", "cadetblue")
         .selectAll("rect")
         .data(data)
         .join("rect")
@@ -120,8 +120,8 @@ function createPatientsForDoctorStatisticGraph(patientsForDoctorData) {
     // Compute the position of each group on the pie:
     var pie = d3.pie()
         .value(function (d) {
-          //  console.log("pie: ");
-          //  console.log(d);
+            //  console.log("pie: ");
+            //  console.log(d);
             return d.value.patientsCount;
         })
     var data_ready = pie(d3.entries(patientsForDoctorData))
@@ -140,8 +140,8 @@ function createPatientsForDoctorStatisticGraph(patientsForDoctorData) {
         .append('path')
         .attr('d', arcGenerator)
         .attr('fill', function (d) {
-           // console.log("color: ");
-           // console.log(d);
+            // console.log("color: ");
+            // console.log(d);
             return (color(d.data.value.doctorName))
         })
         .attr("stroke", "black")
@@ -156,7 +156,7 @@ function createPatientsForDoctorStatisticGraph(patientsForDoctorData) {
         .append('text')
         .text(function (d) {
             //console.log("last: ");
-           // console.log( d);
+            // console.log( d);
             return d.data.value.doctorName
         })
         .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
