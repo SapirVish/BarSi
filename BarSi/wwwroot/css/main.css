@@ -17,8 +17,9 @@
 }
 
 #body-container {
-    margin-left: 6px !important;
-    margin-right: 6px !important;
+    margin-left: 2% !important;
+    margin-right: 2% !important;
+    width: 95%;
 }
 
 .nav-icon {
@@ -43,6 +44,8 @@
     margin-left: 0;
     margin-right: 0;
     max-width: 100%;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 
 #main-nav .nav-item:hover, #main-nav .nav-item:focus {
