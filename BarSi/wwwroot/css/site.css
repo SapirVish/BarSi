@@ -27,6 +27,7 @@ a {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
+  overflow-x: hidden;
   font-size: 14px;
 }
 @media (min-width: 768px) {

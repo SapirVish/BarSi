@@ -32,7 +32,7 @@
 }
 
 #main-nav .nav-item {
-    width: 5%;
+    width: 110px;
     border-radius: 10px;
     transition-property: color, background-color;
     transition-duration: 0.5s;
