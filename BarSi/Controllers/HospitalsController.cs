@@ -44,7 +44,8 @@ namespace BarSi.Controllers
             var hospital = await _context.Hospital
                 .Include(h => h.City)
                 .Include(h => h.Doctors).ThenInclude(d => d.City)
-                .Include(h => h.Patients).ThenInclude(p => p.City)
+                .Include(h => h.Patients).ThenInclude(p => (p.City))
+                .Include(h => h.Patients).ThenInclude(p => (p.Doctor))
                 .Include(h => h.medicalEquipmentSupplies).ThenInclude(m => m.MedicalEquipment)
                 .FirstOrDefaultAsync(m => m.Id == id);
             
@@ -283,9 +284,16 @@ namespace BarSi.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var hospital = await _context.Hospital.FindAsync(id);
-            _context.Hospital.Remove(hospital);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var hospital = await _context.Hospital.FindAsync(id);
+                _context.Hospital.Remove(hospital);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return Content("Unable to delete");
+            }
             return RedirectToAction(nameof(Index));
         }
 

@@ -27,15 +27,13 @@ namespace BarSi.Controllers
             return View(await _context.Doctor.Include(d => d.City).Include(d => d.Hospital).ToListAsync());
         }
 
-        public async Task<IActionResult> Search(string first_name, string last_name, DateTime birthdate, string city, string hospital)
+        public async Task<IActionResult> Search(string first_name, string last_name, string city, string hospital)
         {
             var doctors = _context.Doctor.AsQueryable();
             if (!String.IsNullOrEmpty(first_name))
                 doctors = doctors.Where(d => d.FirstName.ToLower().Contains(first_name.ToLower()));
             if (!String.IsNullOrEmpty(last_name))
                 doctors = doctors.Where(d => d.LastName.ToLower().Contains(last_name.ToLower()));
-            if (birthdate != DateTime.MinValue)
-                doctors = doctors.Where(d => d.Birthdate.Equals(birthdate));
             if (!String.IsNullOrEmpty(hospital))
                 doctors = doctors.Where(d => d.Hospital.Name.Contains(hospital));
             if (!String.IsNullOrEmpty(city))
@@ -195,9 +193,17 @@ namespace BarSi.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var doctor = await _context.Doctor.FindAsync(id);
-            _context.Doctor.Remove(doctor);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var doctor = await _context.Doctor.FindAsync(id);
+                _context.Doctor.Remove(doctor);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return Content("Unable to delete");
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
