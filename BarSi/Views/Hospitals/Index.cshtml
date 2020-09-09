@@ -75,34 +75,6 @@
             center: new Microsoft.Maps.Location(31.728371, 35.040161),
             zoom: 7
         });
-
-        Microsoft.Maps.Events.addHandler(map, 'click', function (e) {
-             handleArgs('mapClick', e);
-
-        });
-        Microsoft.Maps.Events.addHandler(layer, 'rightclick', function (e) {
-            //Get the shape that the user right clicked on in the layer.
-            var shape = e.primitive;
-
-            var loc;
-            var desc;
-
-            //Depending on the type of shape that was clicked.
-            if (shape instanceof Microsoft.Maps.Pushpin) {
-                loc = shape.getLocation();
-                desc = 'Pushpin right clicked';
-            } else {
-                loc = e.location;
-                desc = 'Polyline or Polygon right clicked';
-            }
-
-            //Display the infobox with an unpdated location and description.
-            infobox.setOptions({
-                location: loc,
-                description: desc,
-                visible: true
-            });
-        });
     }
 </script>
 <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AvIU-bI7fquY8nNWndVVTeVfkCtQWK3JMv-sHl-kIsy4Nb2CCPPc_J9NETdmtdwg&callback=loadMap' async defer></script>

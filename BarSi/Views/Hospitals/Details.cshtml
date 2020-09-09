@@ -96,17 +96,21 @@
                 <tbody>
                     @foreach (var item in Model.Patients)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FirstName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LastName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.City.Name)
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.City.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Doctor.FirstName) 
+                            @Html.DisplayFor(modelItem => item.Doctor.LastName)
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

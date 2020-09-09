@@ -30,18 +30,16 @@ namespace BarSi.Controllers
         }   
 
         [HttpPost]
-        public async Task<IActionResult> Search(string name, DateTime birthdate, string hospital,
+        public async Task<IActionResult> Search(string name, string hospital,
             string city, string status, string doctorName)
         {
             var patients = _context.Patient.AsQueryable();
             if (!String.IsNullOrEmpty(name))
                 patients = patients.Where(p => p.FirstName.Contains(name) || p.LastName.Contains(name));
-            if (birthdate != DateTime.MinValue)
-                patients = patients.Where(p => p.Birthdate.Equals(birthdate));
             if (!String.IsNullOrEmpty(hospital))
                 patients = patients.Where(p => p.Hospital.Name.Contains(hospital));
             if (!String.IsNullOrEmpty(city))
-                patients = patients.Where(p => p.City.Name.Contains(hospital));
+                patients = patients.Where(p => p.City.Name.Contains(city));
             if (!String.IsNullOrEmpty(status))
                 patients = patients.Where(p => p.Status.Status.Contains(status));
             if (!String.IsNullOrEmpty(doctorName))
