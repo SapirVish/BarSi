@@ -18,10 +18,10 @@
     });
 
     // Initializing the supply Modal
-    initSupplyModal();
+    initSupplyModal(originalUrl);
 });
 
-initSupplyModal = function () {
+initSupplyModal = function (url) {
     // Add validation to the modal
     (function () {
         'use strict';
@@ -60,6 +60,10 @@ initSupplyModal = function () {
             $("#SupplyQuantity").attr('max', data.toString());
         });
     });
+
+    $('#hideSupplyModal').on('click'), function() {
+        navigateToUrl(url);
+    }
 };
 
 orderSupply = function (form) {
@@ -111,9 +115,11 @@ initSuggestionModal = function (data, url) {
     $("#OrderSuggested").on("click", function () {
         suggestionModal.modal("hide");
 
+        initSupplyModal();
+
         var equipmentSelect = $('#SupplyEquipment');
         equipmentSelect.val(data.equipmentId);
-        equipmentSelect.change()
+        equipmentSelect.change();
 
         $("#SupplyModal").modal("show");
     });
